@@ -106,15 +106,17 @@ function startCall(textMode) {
   callLog = [];
   emergencyBanner.classList.add("hidden");
 
-  greet();
-
   if (textMode || !setupRecognition()) {
     textFallback.classList.remove("hidden");
     micState.textContent = "⌨️ টেক্সটে লিখুন";
   } else {
     textFallback.classList.add("hidden");
-    startRecognition();
+    // Do not listen while the initial greeting is playing through the speaker.
+    greet().finally(() => {
+      if (!muted) startRecognition();
+    });
   }
+  if (textMode || !recognition) greet();
   resetSilenceTimer();
 }
 
@@ -215,6 +217,9 @@ function stopAudio() {
 }
 
 async function speak(text, slow = false) {
+  const resumeRecognition = recognitionActive && !muted;
+  if (resumeRecognition) stopRecognition();
+
   try {
     const res = await fetch("/api/tts", {
       method: "POST",
@@ -225,13 +230,20 @@ async function speak(text, slow = false) {
     const audioUrl = URL.createObjectURL(await res.blob());
     stopAudio();
     currentAudio = new Audio(audioUrl);
-    currentAudio.onended = () => {
-      URL.revokeObjectURL(audioUrl);
-      currentAudio = null;
-    };
     await currentAudio.play();
+    await new Promise((resolve) => {
+      const finish = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (currentAudio && currentAudio.src === audioUrl) currentAudio = null;
+        if (resumeRecognition && !muted) startRecognition();
+        resolve();
+      };
+      currentAudio.onended = finish;
+      currentAudio.onerror = finish;
+    });
   } catch (err) {
     console.warn("Bangla TTS unavailable:", err);
+    if (resumeRecognition && !muted) startRecognition();
   }
 }
 
