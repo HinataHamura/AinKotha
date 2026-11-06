@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Runtime data
+backend/data/logs.jsonl
+
+# Local environment and editor files
+.env
+.env.*
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store

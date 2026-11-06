@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>AinKotha — আইন কথা</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Emergency banner (FR-3.3) -->
+  <div id="emergencyBanner" class="emergency-banner hidden">
+    <span class="pulse-dot"></span>
+    <span>জরুরি প্রয়োজনে কল করুন: <a href="tel:999">৯৯৯</a> &nbsp;|&nbsp; নারী ও শিশু নির্যাতন: <a href="tel:109">১০৯</a></span>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">আ</div>
+      <div>
+        <div class="brand-title">AinKotha</div>
+        <div class="brand-sub">আইন কথা — আইনি তথ্য ও সহায়তা</div>
+      </div>
+    </div>
+    <button id="helpBtn" class="icon-btn" title="সংখ্যাগুলো আবার শুনুন">নম্বরসমূহ</button>
+    <button id="languageBtn" class="icon-btn" title="Switch language">English</button>
+  </header>
+
+  <main class="stage">
+
+    <!-- Consent / Disclaimer screen -->
+    <section id="consentScreen" class="panel consent-panel">
+      <div class="consent-card">
+        <h1>শুরু করার আগে</h1>
+        <ul class="consent-list">
+          <li>আমি একজন <strong>আইনজীবী নই</strong> — এটি একটি AI সহকারী, শুধু সাধারণ তথ্য দেয়।</li>
+          <li>আপনার <strong>কণ্ঠ রেকর্ড করা হবে না।</strong></li>
+          <li>জরুরি বিপদে থাকলে সরাসরি <strong>৯৯৯</strong> নম্বরে কল করুন।</li>
+          <li>শুধু নাম/ফোন নম্বরবিহীন বেনামি তথ্য (ক্যাটাগরি, সময়) যাচাইয়ের জন্য রাখা হতে পারে।</li>
+        </ul>
+        <label class="consent-check">
+          <input type="checkbox" id="consentCheck" />
+          আমি বুঝেছি এবং সম্মত আছি
+        </label>
+        <button id="startCallBtn" class="btn btn-primary btn-lg" disabled>কল শুরু করুন</button>
+        <p class="fallback-link"><a href="#" id="useTextInstead">ভয়েসের বদলে টেক্সটে লিখতে চাই</a></p>
+      </div>
+    </section>
+
+    <!-- Call screen -->
+    <section id="callScreen" class="panel call-panel hidden">
+      <div class="call-visual">
+        <div id="orb" class="orb idle">
+          <div class="orb-ring r1"></div>
+          <div class="orb-ring r2"></div>
+          <div class="orb-core"></div>
+        </div>
+        <div id="callStatus" class="call-status">সংযোগ হয়েছে — কথা বলুন</div>
+        <div id="micState" class="mic-state">🎙️ শুনছি...</div>
+      </div>
+
+      <div id="transcriptBox" class="transcript-box" aria-live="polite"></div>
+      <p id="emergencyStatus" class="emergency-status hidden" role="alert"></p>
+
+      <div id="textFallback" class="text-fallback hidden">
+        <input id="textInput" type="text" placeholder="এখানে আপনার সমস্যা লিখুন..." />
+        <button id="sendTextBtn" class="btn btn-small">পাঠান</button>
+      </div>
+
+      <div class="call-controls">
+        <button id="muteBtn" class="btn btn-round" title="মাইক বন্ধ/চালু">🎤</button>
+        <button id="endCallBtn" class="btn btn-end" title="কল শেষ করুন">⏹ কল শেষ করুন</button>
+        <button id="toggleTextBtn" class="btn btn-round" title="টেক্সট দিয়ে লিখুন">⌨️</button>
+      </div>
+    </section>
+
+    <!-- Summary screen (FR-8) -->
+    <section id="summaryScreen" class="panel summary-panel hidden">
+      <div class="summary-card">
+        <h2>কলের সারাংশ</h2>
+        <div class="summary-row">
+          <span class="summary-label">সমস্যার ধরন</span>
+          <span id="sumCategory" class="summary-value">—</span>
+        </div>
+
+        <div id="sumLawsWrap" class="summary-block">
+          <h3>প্রাসঙ্গিক আইন</h3>
+          <div id="sumLaws" class="chip-list"></div>
+        </div>
+
+        <div id="sumServicesWrap" class="summary-block">
+          <h3>হেল্পলাইন ও সেবা</h3>
+          <div id="sumServices" class="service-list"></div>
+        </div>
+
+        <p class="disclaimer-text">এটি সাধারণ তথ্য, আইনি পরামর্শ নয়। আমি একজন আইনজীবী নই।</p>
+
+        <div class="summary-actions">
+          <button id="copySummaryBtn" class="btn btn-outline">সারাংশ কপি করুন</button>
+          <button id="newCallBtn" class="btn btn-primary">নতুন কল শুরু করুন</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-note">প্রোটোটাইপ সংস্করণ · বাস্তব ফোন নম্বর নয় · AinKotha</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

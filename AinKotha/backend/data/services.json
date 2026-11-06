@@ -1,0 +1,67 @@
+[
+  {
+    "service_id": "S1",
+    "name_bn": "জাতীয় জরুরি সেবা",
+    "name_en": "National Emergency Service",
+    "phone_number": "999",
+    "categories": ["domestic_violence", "child_abuse", "workplace_wage", "cyber_harassment", "legal_aid_general", "emergency"],
+    "description_bn": "যেকোনো জরুরি বিপদে তাৎক্ষণিক পুলিশ, ফায়ার সার্ভিস বা অ্যাম্বুলেন্স সহায়তা।",
+    "description_en": "Immediate police, fire service or ambulance help for any emergency.",
+    "hours": "24/7",
+    "operator": "Government of Bangladesh",
+    "source_url": "https://www.999.gov.bd/",
+    "verified_on": "2026-11-05"
+  },
+  {
+    "service_id": "S2",
+    "name_bn": "নারী ও শিশু নির্যাতন প্রতিরোধ হেল্পলাইন",
+    "name_en": "National Helpline for Violence Against Women and Children",
+    "phone_number": "109",
+    "categories": ["domestic_violence", "child_abuse"],
+    "description_bn": "নারী ও শিশু নির্যাতনের শিকারদের জন্য পরামর্শ ও সহায়তা।",
+    "description_en": "Counselling and support for victims of violence against women and children.",
+    "hours": "24/7",
+    "operator": "Ministry of Women and Children Affairs",
+    "source_url": "https://mowca.gov.bd/",
+    "verified_on": "2026-11-05"
+  },
+  {
+    "service_id": "S3",
+    "name_bn": "জাতীয় আইনগত সহায়তা হেল্পলাইন",
+    "name_en": "National Legal Aid Helpline",
+    "phone_number": "16430",
+    "categories": ["legal_aid_general", "domestic_violence", "workplace_wage", "cyber_harassment", "child_abuse"],
+    "description_bn": "বিনামূল্যে আইনি পরামর্শ ও সরকারি আইনি সহায়তার জন্য যোগাযোগ।",
+    "description_en": "Free legal advice and access to government legal aid.",
+    "hours": "Office hours (subject to verification)",
+    "operator": "National Legal Aid Services Organization (NLASO)",
+    "source_url": "https://nlaso.gov.bd/",
+    "verified_on": "2026-11-05"
+  },
+  {
+    "service_id": "S4",
+    "name_bn": "চাইল্ড হেল্পলাইন",
+    "name_en": "Child Helpline",
+    "phone_number": "1098",
+    "categories": ["child_abuse"],
+    "description_bn": "শিশু নির্যাতন, পাচার বা বিপদের খবর জানানোর জন্য।",
+    "description_en": "For reporting child abuse, trafficking or children in danger.",
+    "hours": "24/7",
+    "operator": "Department of Social Services",
+    "source_url": "https://dss.gov.bd/",
+    "verified_on": "2026-11-05"
+  },
+  {
+    "service_id": "S5",
+    "name_bn": "সরকারি তথ্য সেবা",
+    "name_en": "Government Information Service",
+    "phone_number": "333",
+    "categories": ["legal_aid_general", "workplace_wage", "cyber_harassment"],
+    "description_bn": "যেকোনো সরকারি সেবা সংক্রান্ত সাধারণ তথ্যের জন্য।",
+    "description_en": "General information about any government service.",
+    "hours": "24/7",
+    "operator": "a2i / Cabinet Division",
+    "source_url": "https://333.gov.bd/",
+    "verified_on": "2026-11-05"
+  }
+]
