@@ -52,6 +52,31 @@ class BackendContractTests(unittest.TestCase):
         self.assertEqual(body["category"], "workplace_wage")
         self.assertIn("general information", body["reply_text"])
 
+    def test_child_labor_phrase_is_classified(self):
+        body = self.client.post("/api/chat", json={
+            "session_id": "child-labor-test",
+            "transcript": "বাচ্চা কে দিয়ে কাজ করায়",
+            "language": "bn",
+        }).json()
+        self.assertEqual(body["category"], "child_abuse")
+        self.assertGreater(body["confidence"], 0)
+
+    def test_follow_up_uses_previous_category(self):
+        session_id = "history-test"
+        first = self.client.post("/api/chat", json={
+            "session_id": session_id,
+            "transcript": "আমার স্বামী মারে",
+            "language": "bn",
+        }).json()
+        follow_up = self.client.post("/api/chat", json={
+            "session_id": session_id,
+            "transcript": "আর কী করতে পারি?",
+            "language": "bn",
+        }).json()
+        self.assertEqual(first["category"], "domestic_violence")
+        self.assertEqual(follow_up["category"], "domestic_violence")
+        self.assertNotIn("পুরোপুরি বুঝতে", follow_up["reply_text"])
+
     def test_llm_result_is_used_when_configured(self):
         with patch("main.llm.classify_with_llm", return_value={
             "category": "cyber_harassment", "confidence": 0.9, "needs_clarification": False

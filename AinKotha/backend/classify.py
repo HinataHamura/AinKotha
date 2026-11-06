@@ -11,7 +11,9 @@ CATEGORIES = {
     "child_abuse": {
         "label_bn": "শিশু নির্যাতন / শিশু শ্রম",
         "label_en": "Child abuse / child labor",
-        "keywords": ["শিশু নির্যাতন", "শিশু শ্রম", "বাচ্চাকে মারে", "শিশু পাচার",
+        "keywords": ["শিশু নির্যাতন", "শিশু শ্রম", "বাচ্চাকে মারে", "বাচ্চাকে কাজে",
+                     "বাচ্চা কে দিয়ে কাজ", "বাচ্চাকে দিয়ে কাজ", "শিশুকে দিয়ে কাজ",
+                     "শিশু কে দিয়ে কাজ", "শিশুকে কাজে", "শিশু পাচার",
                      "child abuse", "child labor", "my child is", "minor is being"],
     },
     "workplace_wage": {
@@ -48,8 +50,14 @@ def classify(transcript: str) -> dict:
     best = max(scores, key=scores.get)
     total = sum(scores.values())
     confidence = scores[best] / total if total else 0.0
+    matched_keyword = max(
+        (kw for cat in scores for kw in CATEGORIES[cat]["keywords"] if kw.lower() in text),
+        key=lambda kw: len(kw.split()),
+        default="",
+    )
     return {
         "category": best,
         "confidence": round(confidence, 2),
-        "needs_clarification": scores[best] <= 1 and len(transcript.split()) < 6,
+        "needs_clarification": scores[best] <= 1 and len(transcript.split()) < 6
+        and len(matched_keyword.split()) < 2,
     }

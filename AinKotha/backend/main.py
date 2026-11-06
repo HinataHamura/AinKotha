@@ -142,11 +142,13 @@ def chat(req: ChatRequest):
     confidence = result.get("confidence", 0.0)
 
     # Reuse last known category if clarification is in progress
-    if (category == "unknown" or result.get("needs_clarification", False)) and session["last_category"]:
+    needs_clarification = result.get("needs_clarification", False)
+    if (category == "unknown" or needs_clarification) and session["last_category"]:
         category = session["last_category"]
         confidence = 0.6
+        needs_clarification = False
 
-    if category == "unknown" or result.get("needs_clarification", False):
+    if category == "unknown" or needs_clarification:
         count = session["clarifications"]
         if count < 2:
             session["clarifications"] = count + 1
