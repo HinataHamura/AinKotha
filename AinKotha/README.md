@@ -32,8 +32,8 @@ frontend code or commit it.
 - Consent and disclaimer screen before every call.
 - Bangla (`bn-BD`) Web Speech API speech recognition with live transcript.
 - gTTS Bangla/English playback through `/api/tts`, with slow mode for phone-number repeats.
-- Assistant audio is excluded from speech input: recognition pauses during TTS and ignores delayed
-  playback results, preventing the assistant from hearing its own introduction or replies.
+- Assistant audio is excluded from speech input with echo filtering; recognition stays available
+  during TTS so the user can interrupt a long reply and continue speaking naturally.
 - Mute control, text fallback, animated listening/speaking indicator, and configurable silence timeout.
 - Language toggle between Bangla and English.
 

@@ -31,6 +31,9 @@ let recognitionActive = false;
 let recognitionStarting = false;
 let assistantSpeaking = false;
 let ignoreSpeechUntil = 0;
+let spokenText = "";
+let finishCurrentSpeech = null;
+let speechGeneration = 0;
 let muted = false;
 let silenceTimer = null;
 let callLog = []; // {category, laws, services} accumulated for summary
@@ -145,28 +148,30 @@ function setupRecognition() {
   recognition.interimResults = true;
 
   recognition.onresult = (event) => {
-    if (assistantSpeaking || Date.now() < ignoreSpeechUntil) return;
+    if (Date.now() < ignoreSpeechUntil) return;
     resetSilenceTimer();
     let finalText = "";
     for (let i = event.resultIndex; i < event.results.length; i++) {
       if (event.results[i].isFinal) finalText += event.results[i][0].transcript;
     }
     if (finalText.trim()) {
-      // barge-in: stop assistant speaking (FR-2.3)
-      stopAudio();
-      handleUserTranscript(finalText.trim());
+      const text = finalText.trim();
+      if (assistantSpeaking && isAssistantEcho(text)) return;
+      // Barge-in: stop assistant speaking when the user says something different.
+      if (assistantSpeaking) stopAudio();
+      handleUserTranscript(text);
     }
   };
   recognition.onerror = () => {};
   recognition.onend = () => {
     recognitionStarting = false;
-    if (!assistantSpeaking && recognitionActive && !muted) startRecognition();
+    if (recognitionActive && !muted) startRecognition();
   };
   return true;
 }
 
 function startRecognition() {
-  if (!recognition || assistantSpeaking || recognitionStarting || recognitionActive) return;
+  if (!recognition || recognitionStarting || recognitionActive) return;
   recognitionStarting = true;
   recognitionActive = true;
   try {
@@ -214,6 +219,10 @@ function sendTextInput() {
 function resetSilenceTimer() {
   clearTimeout(silenceTimer);
   silenceTimer = setTimeout(() => {
+    if (assistantSpeaking) {
+      resetSilenceTimer();
+      return;
+    }
     const text = language === "en"
       ? "I did not hear a response, so I am ending the call. Please call again if needed. Thank you."
       : "কোনো সাড়া পাচ্ছি না, তাই কলটি শেষ করছি। প্রয়োজন হলে আবার কল করবেন। ধন্যবাদ।";
@@ -224,11 +233,24 @@ function resetSilenceTimer() {
 }
 
 // ---------- TTS ----------
-function stopAudio() {
-  if (!currentAudio) return;
-  currentAudio.pause();
-  URL.revokeObjectURL(currentAudio.src);
+function stopAudio(cancelSpeech = true) {
+  if (cancelSpeech) speechGeneration += 1;
+  const audio = currentAudio;
   currentAudio = null;
+  if (audio) {
+    audio.pause();
+    URL.revokeObjectURL(audio.src);
+  }
+  assistantSpeaking = false;
+  spokenText = "";
+  orb.classList.remove("speaking");
+  micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
+  ignoreSpeechUntil = Date.now() + 300;
+  if (finishCurrentSpeech) {
+    const finish = finishCurrentSpeech;
+    finishCurrentSpeech = null;
+    finish();
+  }
 }
 
 function speakAndWait(text, slow = false) {
@@ -238,9 +260,11 @@ function speakAndWait(text, slow = false) {
 }
 
 async function speak(text, slow = false) {
-  const resumeRecognition = recognitionActive && !muted;
+  const generation = ++speechGeneration;
   assistantSpeaking = true;
-  if (resumeRecognition) stopRecognition();
+  spokenText = text;
+  resetSilenceTimer();
+  if (!muted && !recognitionActive) startRecognition();
   orb.classList.add("speaking");
   orb.classList.remove("listening");
   micState.textContent = "🔊 বলছি...";
@@ -253,31 +277,49 @@ async function speak(text, slow = false) {
     });
     if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
     const audioUrl = URL.createObjectURL(await res.blob());
-    stopAudio();
+    if (generation !== speechGeneration) {
+      URL.revokeObjectURL(audioUrl);
+      return;
+    }
+    stopAudio(false);
     currentAudio = new Audio(audioUrl);
     await currentAudio.play();
     await new Promise((resolve) => {
+      finishCurrentSpeech = resolve;
       const finish = () => {
+        if (finishCurrentSpeech !== resolve) return;
+        finishCurrentSpeech = null;
         URL.revokeObjectURL(audioUrl);
         if (currentAudio && currentAudio.src === audioUrl) currentAudio = null;
         orb.classList.remove("speaking");
         micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
         assistantSpeaking = false;
+        spokenText = "";
         ignoreSpeechUntil = Date.now() + 500;
-        if (resumeRecognition && !muted) startRecognition();
+        resetSilenceTimer();
         resolve();
       };
       currentAudio.onended = finish;
       currentAudio.onerror = finish;
     });
   } catch (err) {
+    if (generation !== speechGeneration) return;
     console.warn("Bangla TTS unavailable:", err);
     orb.classList.remove("speaking");
     micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
     assistantSpeaking = false;
+    spokenText = "";
     ignoreSpeechUntil = Date.now() + 500;
-    if (resumeRecognition && !muted) startRecognition();
+    resetSilenceTimer();
   }
+}
+
+function isAssistantEcho(text) {
+  if (!assistantSpeaking) return false;
+  const normalize = (value) => value.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+  const heard = normalize(text);
+  const spoken = normalize(spokenText);
+  return heard.length < 3 || (spoken.length > 0 && (spoken.includes(heard) || heard.includes(spoken)));
 }
 
 // FR-7.3: detect "আস্তে বলুন" / "repeat slowly" requests
