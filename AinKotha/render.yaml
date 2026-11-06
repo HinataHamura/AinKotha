@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ainkotha
+    runtime: python
+    rootDir: AinKotha/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: AINKOTHA_LLM_API_KEY
+        sync: false
+      - key: AINKOTHA_LLM_ENDPOINT
+        value: https://api.openai.com/v1/chat/completions
+      - key: AINKOTHA_LLM_MODEL
+        value: gpt-4o-mini
