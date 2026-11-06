@@ -28,6 +28,9 @@ const emergencyStatus = $("emergencyStatus");
 
 let recognition = null;
 let recognitionActive = false;
+let recognitionStarting = false;
+let assistantSpeaking = false;
+let ignoreSpeechUntil = 0;
 let muted = false;
 let silenceTimer = null;
 let callLog = []; // {category, laws, services} accumulated for summary
@@ -142,6 +145,7 @@ function setupRecognition() {
   recognition.interimResults = true;
 
   recognition.onresult = (event) => {
+    if (assistantSpeaking || Date.now() < ignoreSpeechUntil) return;
     resetSilenceTimer();
     let finalText = "";
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -155,17 +159,23 @@ function setupRecognition() {
   };
   recognition.onerror = () => {};
   recognition.onend = () => {
-    if (recognitionActive && !muted) {
-      try { recognition.start(); } catch (e) {}
-    }
+    recognitionStarting = false;
+    if (!assistantSpeaking && recognitionActive && !muted) startRecognition();
   };
   return true;
 }
 
 function startRecognition() {
-  if (!recognition) return;
+  if (!recognition || assistantSpeaking || recognitionStarting || recognitionActive) return;
+  recognitionStarting = true;
   recognitionActive = true;
-  try { recognition.start(); } catch (e) {}
+  try {
+    recognition.start();
+  } catch (e) {
+    recognitionStarting = false;
+    recognitionActive = false;
+    return;
+  }
   orb.classList.add("listening");
   callStatus.textContent = "সংযোগ হয়েছে — কথা বলুন";
   micState.textContent = "🎙️ শুনছি...";
@@ -173,6 +183,7 @@ function startRecognition() {
 
 function stopRecognition() {
   recognitionActive = false;
+  recognitionStarting = false;
   if (recognition) { try { recognition.stop(); } catch (e) {} }
   orb.classList.remove("listening");
 }
@@ -228,6 +239,7 @@ function speakAndWait(text, slow = false) {
 
 async function speak(text, slow = false) {
   const resumeRecognition = recognitionActive && !muted;
+  assistantSpeaking = true;
   if (resumeRecognition) stopRecognition();
   orb.classList.add("speaking");
   orb.classList.remove("listening");
@@ -250,6 +262,8 @@ async function speak(text, slow = false) {
         if (currentAudio && currentAudio.src === audioUrl) currentAudio = null;
         orb.classList.remove("speaking");
         micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
+        assistantSpeaking = false;
+        ignoreSpeechUntil = Date.now() + 500;
         if (resumeRecognition && !muted) startRecognition();
         resolve();
       };
@@ -260,6 +274,8 @@ async function speak(text, slow = false) {
     console.warn("Bangla TTS unavailable:", err);
     orb.classList.remove("speaking");
     micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
+    assistantSpeaking = false;
+    ignoreSpeechUntil = Date.now() + 500;
     if (resumeRecognition && !muted) startRecognition();
   }
 }
