@@ -1,7 +1,16 @@
 // AinKotha frontend — voice call UI wired to /api/chat (FR-1, FR-2, FR-8)
 const API_URL = "/api/chat";
 const SESSION_ID = crypto.randomUUID();
-const SILENCE_TIMEOUT_MS = 60000; // FR-1.5
+let SILENCE_TIMEOUT_MS = 60000; // FR-1.5 — overridden by /api/config on load
+
+fetch("/api/config")
+  .then((r) => r.json())
+  .then((cfg) => {
+    if (cfg && cfg.silence_timeout_seconds > 0) {
+      SILENCE_TIMEOUT_MS = cfg.silence_timeout_seconds * 1000;
+    }
+  })
+  .catch(() => {});
 
 const $ = (id) => document.getElementById(id);
 
@@ -25,6 +34,53 @@ let callLog = []; // {category, laws, services} accumulated for summary
 let usingTextMode = false;
 let currentAudio = null;
 let language = "bn";
+
+// ---------- Consent language toggle (FR-2.6) ----------
+const CONSENT_TEXT = {
+  bn: {
+    title: "শুরু করার আগে",
+    items: [
+      "আমি একজন <strong>আইনজীবী নই</strong> — এটি একটি AI সহকারী, শুধু সাধারণ তথ্য দেয়।",
+      "আপনার <strong>কণ্ঠ রেকর্ড করা হবে না।</strong>",
+      "জরুরি বিপদে থাকলে সরাসরি <strong>৯৯৯</strong> নম্বরে কল করুন।",
+      "শুধু নাম/ফোন নম্বরবিহীন বেনামি তথ্য (ক্যাটাগরি, সময়) যাচাইয়ের জন্য রাখা হতে পারে।",
+    ],
+    agree: "আমি বুঝেছি এবং সম্মত আছি",
+    start: "কল শুরু করুন",
+    textMode: "ভয়েসের বদলে টেক্সটে লিখতে চাই",
+    langBtn: "English",
+  },
+  en: {
+    title: "Before you start",
+    items: [
+      "I am <strong>not a lawyer</strong> — this is an AI assistant that provides general information only.",
+      "Your <strong>voice will not be recorded.</strong>",
+      "If you are in immediate danger, call <strong>999</strong> directly.",
+      "Only anonymous data (category, timestamp) may be kept for evaluation — no names or phone numbers.",
+    ],
+    agree: "I understand and agree",
+    start: "Start Call",
+    textMode: "Use text instead of voice",
+    langBtn: "বাংলা",
+  },
+};
+
+function applyConsentLanguage(lang) {
+  const t = CONSENT_TEXT[lang];
+  $("consentTitle").textContent = t.title;
+  const list = $("consentList");
+  list.innerHTML = t.items.map((item) => `<li>${item}</li>`).join("");
+  $("consentAgreeLabel").innerHTML = t.agree;
+  $("startCallLabel").textContent = t.start;
+  $("useTextInstead").textContent = t.textMode;
+  $("consentLangBtn").textContent = t.langBtn;
+}
+
+$("consentLangBtn").addEventListener("click", () => {
+  language = language === "bn" ? "en" : "bn";
+  $("languageBtn").textContent = language === "bn" ? "English" : "বাংলা";
+  applyConsentLanguage(language);
+});
 
 // ---------- Consent gating ----------
 $("consentCheck").addEventListener("change", (e) => {
@@ -65,7 +121,7 @@ function startCall(textMode) {
 function greet() {
   const text = language === "en"
     ? "Hello. I can share general information about laws and helplines in Bangladesh. I am not a lawyer. Please tell me your problem."
-    : "নমস্কার। আমি AinKotha, আইনি তথ্য ও হেল্পলাইন সম্পর্কে সাধারণ তথ্য দিতে পারি। আমি একজন আইনজীবী নই। আপনার সমস্যা বলুন।";
+    : "আমি AinKotha — আইনি তথ্য ও হেল্পলাইন সম্পর্কে সাধারণ তথ্য দিতে পারি। আমি একজন আইনজীবী নই। আপনার সমস্যা বলুন।";
   addBubble("bot", text);
   speak(text);
 }
@@ -158,12 +214,12 @@ function stopAudio() {
   currentAudio = null;
 }
 
-async function speak(text) {
+async function speak(text, slow = false) {
   try {
     const res = await fetch("/api/tts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, language }),
+      body: JSON.stringify({ text, language, slow }),
     });
     if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
     const audioUrl = URL.createObjectURL(await res.blob());
@@ -177,6 +233,26 @@ async function speak(text) {
   } catch (err) {
     console.warn("Bangla TTS unavailable:", err);
   }
+}
+
+// FR-7.3: detect "আস্তে বলুন" / "repeat slowly" requests
+const SLOW_REPEAT_PATTERNS_BN = ["আস্তে বল", "ধীরে বল", "আবার বল", "নম্বরগুলো আবার", "আবার একটু ধীরে"];
+const SLOW_REPEAT_PATTERNS_EN = ["repeat slowly", "say again slowly", "numbers again", "slowly again", "say the numbers"];
+
+function isSlowRepeatRequest(text) {
+  const t = text.toLowerCase();
+  const patterns = language === "en" ? SLOW_REPEAT_PATTERNS_EN : SLOW_REPEAT_PATTERNS_BN;
+  return patterns.some((p) => t.includes(p));
+}
+
+// Extract phone numbers from the last bot bubble for slow repeat
+function getLastServiceNumbers() {
+  const bubbles = transcriptBox.querySelectorAll(".bot");
+  if (!bubbles.length) return null;
+  const last = bubbles[bubbles.length - 1].textContent;
+  // find all sequences that look like phone numbers (3-5 digit short codes or longer)
+  const nums = last.match(/\b\d{3,11}\b/g);
+  return nums ? [...new Set(nums)].join(", ") : null;
 }
 
 // ---------- Transcript UI ----------
@@ -195,6 +271,20 @@ function escapeHtml(s) {
 // ---------- Backend call ----------
 async function handleUserTranscript(text) {
   addBubble("me", text);
+
+  // FR-7.3: slow repeat request — speak last numbers slowly without calling backend
+  if (isSlowRepeatRequest(text)) {
+    const nums = getLastServiceNumbers();
+    const reply = nums
+      ? (language === "en"
+          ? `The numbers are: ${nums}. I will say them slowly.`
+          : `নম্বরগুলো হলো: ${nums}। আমি ধীরে বলছি।`)
+      : (language === "en" ? "I will repeat the last reply slowly." : "আগের উত্তরটি ধীরে বলছি।");
+    addBubble("bot", reply);
+    speak(reply, true);
+    return;
+  }
+
   callStatus.textContent = "ভাবছি...";
   try {
     const res = await fetch(API_URL, {
@@ -291,11 +381,12 @@ $("newCallBtn").addEventListener("click", () => {
 });
 
 $("helpBtn").addEventListener("click", () => {
+  // FR-7.3: helpBtn always speaks numbers slowly so user can note them
   const text = language === "en"
     ? "Emergency service 999. Violence against women and children helpline 109. National legal aid 16430. Child helpline 1098."
     : "জরুরি সেবা ৯৯৯। নারী ও শিশু নির্যাতন হেল্পলাইন ১০৯। জাতীয় আইনগত সহায়তা ১৬৪৩০। চাইল্ড হেল্পলাইন ১০৯৮।";
   addBubble("bot", text);
-  speak(text);
+  speak(text, true); // slow=true so numbers are clearly heard
 });
 
 $("languageBtn").addEventListener("click", () => {

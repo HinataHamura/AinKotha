@@ -43,9 +43,9 @@ def main():
 
     errors = validate(laws, LAW_REQUIRED, "law") + validate(services, SERVICE_REQUIRED, "service")
 
-    placeholder_laws = [l["law_id"] for l in laws if "PLACEHOLDER" in l.get("verified_by", "")]
-    if placeholder_laws:
-        print(f"WARNING: {len(placeholder_laws)} law(s) still need legal-reviewer verification: {placeholder_laws}")
+    unreviewed_laws = [l["law_id"] for l in laws if "awaiting" in l.get("verified_by", "").lower()]
+    if unreviewed_laws:
+        print(f"WARNING: {len(unreviewed_laws)} law(s) awaiting qualified legal-reviewer sign-off: {unreviewed_laws}")
 
     if errors:
         print(f"FAILED — {len(errors)} error(s):")

@@ -34,8 +34,12 @@
     <!-- Consent / Disclaimer screen -->
     <section id="consentScreen" class="panel consent-panel">
       <div class="consent-card">
-        <h1>শুরু করার আগে</h1>
-        <ul class="consent-list">
+        <div class="consent-lang-row">
+          <span id="consentLangLabel" class="consent-lang-label">ভাষা / Language:</span>
+          <button id="consentLangBtn" class="btn icon-btn consent-lang-btn">English</button>
+        </div>
+        <h1 id="consentTitle">শুরু করার আগে</h1>
+        <ul class="consent-list" id="consentList">
           <li>আমি একজন <strong>আইনজীবী নই</strong> — এটি একটি AI সহকারী, শুধু সাধারণ তথ্য দেয়।</li>
           <li>আপনার <strong>কণ্ঠ রেকর্ড করা হবে না।</strong></li>
           <li>জরুরি বিপদে থাকলে সরাসরি <strong>৯৯৯</strong> নম্বরে কল করুন।</li>
@@ -43,10 +47,12 @@
         </ul>
         <label class="consent-check">
           <input type="checkbox" id="consentCheck" />
-          আমি বুঝেছি এবং সম্মত আছি
+          <span id="consentAgreeLabel">আমি বুঝেছি এবং সম্মত আছি</span>
         </label>
-        <button id="startCallBtn" class="btn btn-primary btn-lg" disabled>কল শুরু করুন</button>
-        <p class="fallback-link"><a href="#" id="useTextInstead">ভয়েসের বদলে টেক্সটে লিখতে চাই</a></p>
+        <button id="startCallBtn" class="btn btn-primary btn-lg" disabled>
+          <span id="startCallLabel">কল শুরু করুন</span>
+        </button>
+        <p class="fallback-link"><a href="#" id="useTextInstead" id="useTextLabel">ভয়েসের বদলে টেক্সটে লিখতে চাই</a></p>
       </div>
     </section>
 

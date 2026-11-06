@@ -17,8 +17,10 @@ CATEGORIES = {
     "workplace_wage": {
         "label_bn": "কর্মক্ষেত্র ও মজুরি বিরোধ",
         "label_en": "Workplace and wage dispute",
-        "keywords": ["বেতন দেয় না", "মজুরি বকেয়া", "চাকরি থেকে বের", "কারখানা", "অফিসে সমস্যা",
-                     "salary not paid", "wage", "fired", "unpaid", "employer", "factory", "office"],
+        "keywords": ["বেতন দেয় না", "বেতন পাচ্ছি না", "বেতন পাই না", "মজুরি বকেয়া", "মজুরি দেয় না",
+                     "চাকরি থেকে বের", "কারখানা", "অফিসে সমস্যা", "অফিস থেকে", "কর্মক্ষেত্র",
+                     "salary not paid", "wage", "fired", "unpaid", "employer", "factory", "office",
+                     "not paying salary", "salary problem", "work dispute"],
     },
     "cyber_harassment": {
         "label_bn": "সাইবার হয়রানি",

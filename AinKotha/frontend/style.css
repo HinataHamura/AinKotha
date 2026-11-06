@@ -122,6 +122,9 @@ background: rgba(127, 29, 29, 0.35); }
 .consent-check input { width: 18px; height: 18px; accent-color: var(--accent); }
 .fallback-link { text-align: center; margin-top: 14px; }
 .fallback-link a { color: var(--accent); font-size: 13.5px; text-decoration: none; }
+.consent-lang-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.consent-lang-label { font-size: 13px; color: var(--text-dim); }
+.consent-lang-btn { font-size: 13px; padding: 6px 14px; }
 
 /* Buttons */
 .btn {

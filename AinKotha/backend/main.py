@@ -2,6 +2,7 @@
 Channel-independent: this API has no knowledge of voice vs text transport (NFR-10)."""
 import time
 import json
+import os
 from io import BytesIO
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,9 +18,18 @@ import safety
 import classify as clf
 import responder
 import llm
+import retrieve as rt
+
+# FR-1.5: configurable silence timeout via env var (seconds)
+SILENCE_TIMEOUT_SECONDS = int(os.getenv("AINKOTHA_SILENCE_TIMEOUT", "60"))
 
 APP_DIR = Path(__file__).parent
 LOG_FILE = APP_DIR / "data" / "logs.jsonl"
+
+_logging.basicConfig(
+    level=_logging.INFO,
+    format="%(asctime)s %(name)s %(levelname)s %(message)s",
+)
 
 app = FastAPI(title="AinKotha API")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -49,6 +59,11 @@ class ChatResponse(BaseModel):
 class TTSRequest(BaseModel):
     text: str
     language: str = "bn"
+    slow: bool = False  # FR-7.3: slow mode for repeating numbers
+
+
+import logging as _logging
+_logger = _logging.getLogger("ainkotha")
 
 
 def _log(session_id: str, category: str, is_emergency: bool, latency_ms: int):
@@ -60,10 +75,14 @@ def _log(session_id: str, category: str, is_emergency: bool, latency_ms: int):
         "is_emergency": is_emergency,
         "latency_ms": latency_ms,
     }
+    line = json.dumps(entry, ensure_ascii=False)
+    # Always emit to stdout so Render captures it in its log stream (FR-9.3 workaround for ephemeral disk)
+    _logger.info(line)
+    # Also try writing to disk (works locally; silently fails on ephemeral Render filesystem)
     try:
         with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    except Exception:
+            f.write(line + "\n")
+    except OSError:
         pass
 
 
@@ -129,6 +148,19 @@ def health():
     return {"status": "ok"}
 
 
+@app.get("/api/config")
+def config():
+    """Expose safe runtime config to the frontend (FR-1.5)."""
+    return {"silence_timeout_seconds": SILENCE_TIMEOUT_SECONDS}
+
+
+@app.post("/api/reload")
+def reload_dataset():
+    """UC-3: Reload laws/services JSON without restarting the server."""
+    rt.reload_dataset()
+    return {"status": "reloaded"}
+
+
 @app.post("/api/tts")
 def text_to_speech(req: TTSRequest):
     text = req.text.strip()
@@ -138,14 +170,15 @@ def text_to_speech(req: TTSRequest):
         raise HTTPException(status_code=400, detail="Text is too long")
 
     lang = "en" if req.language.lower().startswith("en") else "bn"
-    cache_key = f"{lang}:{text}"
+    slow = req.slow
+    cache_key = f"{lang}:{'slow' if slow else 'normal'}:{text}"
     cached_audio = _tts_cache.get(cache_key)
     if cached_audio is None:
         last_error = None
         for domain in _tts_domains:
             audio = BytesIO()
             try:
-                gTTS(text=text, lang=lang, tld=domain, slow=False).write_to_fp(audio)
+                gTTS(text=text, lang=lang, tld=domain, slow=slow).write_to_fp(audio)
                 cached_audio = audio.getvalue()
                 break
             except Exception as exc:
