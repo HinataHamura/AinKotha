@@ -183,6 +183,28 @@ background: rgba(127, 29, 29, 0.35); }
 }
 .orb.listening .orb-core { animation: breathe 1s ease-in-out infinite alternate; }
 @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.12); } }
+.orb.speaking .orb-core {
+  animation: speakpulse 0.5s ease-in-out infinite alternate;
+  background: radial-gradient(circle at 35% 30%, #c4b5fd, var(--accent-2) 60%, #7c3aed);
+  box-shadow: 0 0 48px 10px rgba(139,92,246,0.6);
+}
+@keyframes speakpulse { from { transform: scale(1); } to { transform: scale(1.18); } }
+.orb.speaking .orb-ring { border-color: rgba(139,92,246,0.4); animation-duration: 1.2s; }
+
+/* Confidence badge */
+.confidence-badge {
+  display: inline-block; font-size: 11px; padding: 2px 8px;
+  border-radius: 999px; background: rgba(79,124,255,0.15);
+  border: 1px solid rgba(79,124,255,0.3); color: var(--text-dim);
+  margin-left: 8px; vertical-align: middle;
+}
+
+/* Service expand/collapse */
+.service-item { flex-direction: column; align-items: flex-start; gap: 4px; cursor: pointer; }
+.service-item-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.service-detail { font-size: 12.5px; color: var(--text-dim); margin-top: 4px; display: none; }
+.service-item.expanded .service-detail { display: block; }
+.service-toggle { font-size: 11px; color: var(--text-dim); }
 
 .call-status { font-size: 15.5px; font-weight: 600; }
 .mic-state { font-size: 13px; color: var(--text-dim); }

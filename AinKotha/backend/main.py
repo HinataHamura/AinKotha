@@ -35,10 +35,9 @@ _logging.basicConfig(
 app = FastAPI(title="AinKotha API")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-# simple in-memory per-session turn counter (for max-2-clarifications rule, FR-4.2)
-_session_clarify_count: dict[str, int] = {}
 _tts_cache: dict[str, bytes] = {}
 _tts_domains = ("com", "com.bd", "co.in")
+# FR-4.3: session state — clarifications, emergency flag, conversation history
 _sessions: dict[str, dict] = {}
 
 
@@ -55,6 +54,7 @@ class ChatResponse(BaseModel):
     is_emergency: bool
     laws: list
     services: list
+    confidence: float = 0.0  # dev/demo mode confidence score
 
 
 class TTSRequest(BaseModel):
@@ -92,7 +92,12 @@ def chat(req: ChatRequest):
     start = time.time()
     transcript = (req.transcript or "").strip()
     language = "en" if req.language.lower().startswith("en") else "bn"
-    session = _sessions.setdefault(req.session_id, {"clarifications": 0, "emergency": False})
+    session = _sessions.setdefault(req.session_id, {
+        "clarifications": 0,
+        "emergency": False,
+        "history": [],      # FR-4.3: list of {role, text} for context
+        "last_category": None,
+    })
 
     if not transcript:
         resp = {
@@ -105,9 +110,15 @@ def chat(req: ChatRequest):
             "is_emergency": False,
             "laws": [],
             "services": [],
+            "confidence": 0.0,
         }
         _log(req.session_id, "unknown", False, int((time.time() - start) * 1000))
         return resp
+
+    # FR-4.3: append user turn to history (keep last 10 turns to avoid token bloat)
+    session["history"].append({"role": "user", "text": transcript})
+    if len(session["history"]) > 10:
+        session["history"] = session["history"][-10:]
 
     # FR-3: safety first, always
     danger = safety.check_emergency(transcript)
@@ -118,14 +129,22 @@ def chat(req: ChatRequest):
             if language == "en"
             else responder.build_emergency_reply(danger["is_self_harm"])
         )
+        resp["confidence"] = 1.0
         _log(req.session_id, "emergency", True, int((time.time() - start) * 1000))
         return resp
     if session["emergency"]:
         session["emergency"] = False
 
-    # FR-4: classify
-    result = llm.classify_with_llm(transcript) or clf.classify(transcript)
+    # FR-4: classify — pass history context to LLM for multi-turn awareness
+    history_context = " | ".join(t["text"] for t in session["history"][-4:])
+    result = llm.classify_with_llm(history_context) or clf.classify(transcript)
     category = result["category"]
+    confidence = result.get("confidence", 0.0)
+
+    # Reuse last known category if clarification is in progress
+    if (category == "unknown" or result.get("needs_clarification", False)) and session["last_category"]:
+        category = session["last_category"]
+        confidence = 0.6
 
     if category == "unknown" or result.get("needs_clarification", False):
         count = session["clarifications"]
@@ -134,12 +153,17 @@ def chat(req: ChatRequest):
             resp = responder.build_clarify_reply_en() if language == "en" else responder.build_clarify_reply()
         else:
             resp = responder.build_unknown_reply_en() if language == "en" else responder.build_unknown_reply()
+        resp["confidence"] = confidence
         _log(req.session_id, "unknown", False, int((time.time() - start) * 1000))
         return resp
 
     # FR-5/FR-6/FR-7: retrieve + generate
     session["clarifications"] = 0
+    session["last_category"] = category
     resp = responder.build_reply_en(category) if language == "en" else responder.build_reply(category)
+    resp["confidence"] = confidence
+    # append bot turn to history
+    session["history"].append({"role": "bot", "text": resp["reply_text"][:200]})
     _log(req.session_id, category, False, int((time.time() - start) * 1000))
     return resp
 

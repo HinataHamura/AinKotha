@@ -104,28 +104,32 @@ function startCall(textMode) {
   summaryScreen.classList.add("hidden");
   transcriptBox.innerHTML = "";
   callLog = [];
-  emergencyBanner.classList.add("hidden");
+  // FR-3.3: show emergency banner throughout the entire call
+  emergencyBanner.classList.remove("hidden");
 
-  if (textMode || !setupRecognition()) {
+  const hasVoice = !textMode && setupRecognition();
+  if (!hasVoice) {
     textFallback.classList.remove("hidden");
     micState.textContent = "⌨️ টেক্সটে লিখুন";
+    greet(false);
   } else {
     textFallback.classList.add("hidden");
-    // Do not listen while the initial greeting is playing through the speaker.
-    greet().finally(() => {
+    // Greet first, start mic only AFTER TTS finishes so bot voice isn't picked up as user input
+    greet(true).then(() => {
       if (!muted) startRecognition();
     });
   }
-  if (textMode || !recognition) greet();
   resetSilenceTimer();
 }
 
-function greet() {
+function greet(waitForAudio = false) {
   const text = language === "en"
     ? "Hello. I can share general information about laws and helplines in Bangladesh. I am not a lawyer. Please tell me your problem."
     : "আমি AinKotha — আইনি তথ্য ও হেল্পলাইন সম্পর্কে সাধারণ তথ্য দিতে পারি। আমি একজন আইনজীবী নই। আপনার সমস্যা বলুন।";
   addBubble("bot", text);
+  if (waitForAudio) return speakAndWait(text);
   speak(text);
+  return Promise.resolve();
 }
 
 // ---------- Web Speech API (STT) ----------
@@ -216,9 +220,18 @@ function stopAudio() {
   currentAudio = null;
 }
 
+function speakAndWait(text, slow = false) {
+  return new Promise((resolve) => {
+    speak(text, slow).then(resolve).catch(resolve);
+  });
+}
+
 async function speak(text, slow = false) {
   const resumeRecognition = recognitionActive && !muted;
   if (resumeRecognition) stopRecognition();
+  orb.classList.add("speaking");
+  orb.classList.remove("listening");
+  micState.textContent = "🔊 বলছি...";
 
   try {
     const res = await fetch("/api/tts", {
@@ -235,6 +248,8 @@ async function speak(text, slow = false) {
       const finish = () => {
         URL.revokeObjectURL(audioUrl);
         if (currentAudio && currentAudio.src === audioUrl) currentAudio = null;
+        orb.classList.remove("speaking");
+        micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
         if (resumeRecognition && !muted) startRecognition();
         resolve();
       };
@@ -243,6 +258,8 @@ async function speak(text, slow = false) {
     });
   } catch (err) {
     console.warn("Bangla TTS unavailable:", err);
+    orb.classList.remove("speaking");
+    micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
     if (resumeRecognition && !muted) startRecognition();
   }
 }
@@ -268,11 +285,16 @@ function getLastServiceNumbers() {
 }
 
 // ---------- Transcript UI ----------
-function addBubble(who, text) {
+function addBubble(who, text, category, confidence) {
   const div = document.createElement("div");
   div.className = who;
   const label = who === "me" ? "আপনি" : "AinKotha";
-  div.innerHTML = `<b>${label}</b>${escapeHtml(text)}`;
+  let meta = "";
+  if (who === "bot" && category && category !== "unknown" && category !== "emergency" && confidence > 0) {
+    const pct = Math.round(confidence * 100);
+    meta = `<span class="confidence-badge">${category.replaceAll("_", " ")} ${pct}%</span>`;
+  }
+  div.innerHTML = `<b>${label}${meta}</b>${escapeHtml(text)}`;
   transcriptBox.appendChild(div);
   transcriptBox.scrollTop = transcriptBox.scrollHeight;
 }
@@ -305,7 +327,7 @@ async function handleUserTranscript(text) {
       body: JSON.stringify({ session_id: SESSION_ID, transcript: text, language }),
     });
     const data = await res.json();
-    addBubble("bot", data.reply_text);
+    addBubble("bot", data.reply_text, data.category, data.confidence);
     speak(data.reply_text);
     callStatus.textContent = "সংযোগ হয়েছে — কথা বলুন";
 
@@ -373,7 +395,20 @@ function renderSummary() {
       seenSvc.add(s.service_id);
       const row = document.createElement("div");
       row.className = "service-item";
-      row.innerHTML = `<span>${s.name_bn}</span><a href="tel:${s.phone_number}">${s.phone_number}</a>`;
+      const detailParts = [];
+      if (s.description_bn) detailParts.push(s.description_bn);
+      if (s.hours) detailParts.push(s.hours);
+      const detailHtml = detailParts.length
+        ? `<div class="service-detail">${escapeHtml(detailParts.join(" · "))}</div>`
+        : "";
+      row.innerHTML = `
+        <div class="service-item-row">
+          <span>${escapeHtml(s.name_bn)}</span>
+          <span><a href="tel:${s.phone_number}">${s.phone_number}</a>${detailHtml ? ' <span class="service-toggle">▼</span>' : ""}</span>
+        </div>${detailHtml}`;
+      if (detailHtml) {
+        row.addEventListener("click", () => row.classList.toggle("expanded"));
+      }
       sumServices.appendChild(row);
     });
   });
@@ -389,6 +424,7 @@ $("copySummaryBtn").addEventListener("click", () => {
 
 $("newCallBtn").addEventListener("click", () => {
   summaryScreen.classList.add("hidden");
+  emergencyBanner.classList.add("hidden");
   consentScreen.classList.remove("hidden");
 });
 
