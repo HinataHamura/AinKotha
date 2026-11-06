@@ -66,6 +66,24 @@ class TTSRequest(BaseModel):
 import logging as _logging
 _logger = _logging.getLogger("ainkotha")
 
+_FOLLOW_UP_PHRASES_BN = (
+    "আর কী করতে",
+    "আর কি করতে",
+    "এখন কী কর",
+    "এখন কি কর",
+    "কী করা উচিত",
+    "কি করা উচিত",
+    "কী করতে হবে",
+    "কি করতে হবে",
+)
+_FOLLOW_UP_PHRASES_EN = ("what should i do", "what can i do", "what else", "next step")
+
+
+def _is_follow_up(transcript: str, language: str) -> bool:
+    text = transcript.lower()
+    phrases = _FOLLOW_UP_PHRASES_EN if language == "en" else _FOLLOW_UP_PHRASES_BN
+    return any(phrase in text for phrase in phrases)
+
 
 def _log(session_id: str, category: str, is_emergency: bool, latency_ms: int):
     # FR-9.1/9.2/9.3: anonymous logs only — no transcript, no personal data
@@ -140,10 +158,15 @@ def chat(req: ChatRequest):
     result = llm.classify_with_llm(history_context) or clf.classify(transcript)
     category = result["category"]
     confidence = result.get("confidence", 0.0)
+    is_follow_up = bool(session["last_category"] and _is_follow_up(transcript, language))
 
     # Reuse last known category if clarification is in progress
     needs_clarification = result.get("needs_clarification", False)
-    if (category == "unknown" or needs_clarification) and session["last_category"]:
+    if is_follow_up:
+        category = session["last_category"]
+        confidence = 0.6
+        needs_clarification = False
+    elif (category == "unknown" or needs_clarification) and session["last_category"]:
         category = session["last_category"]
         confidence = 0.6
         needs_clarification = False
@@ -162,7 +185,14 @@ def chat(req: ChatRequest):
     # FR-5/FR-6/FR-7: retrieve + generate
     session["clarifications"] = 0
     session["last_category"] = category
-    resp = responder.build_reply_en(category) if language == "en" else responder.build_reply(category)
+    if is_follow_up:
+        resp = (
+            responder.build_follow_up_reply_en(category)
+            if language == "en"
+            else responder.build_follow_up_reply(category)
+        )
+    else:
+        resp = responder.build_reply_en(category) if language == "en" else responder.build_reply(category)
     resp["confidence"] = confidence
     # append bot turn to history
     session["history"].append({"role": "bot", "text": resp["reply_text"][:200]})

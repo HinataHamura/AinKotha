@@ -75,7 +75,23 @@ class BackendContractTests(unittest.TestCase):
         }).json()
         self.assertEqual(first["category"], "domestic_violence")
         self.assertEqual(follow_up["category"], "domestic_violence")
-        self.assertNotIn("পুরোপুরি বুঝতে", follow_up["reply_text"])
+        self.assertIn("নিরাপদ জায়গায়", follow_up["reply_text"])
+
+    def test_child_abuse_follow_up_gives_next_steps(self):
+        session_id = "child-follow-up-test"
+        self.client.post("/api/chat", json={
+            "session_id": session_id,
+            "transcript": "বাচ্চাকে দিয়ে কাজ করানো হয়",
+            "language": "bn",
+        })
+        body = self.client.post("/api/chat", json={
+            "session_id": session_id,
+            "transcript": "আর কি করতে পারে",
+            "language": "bn",
+        }).json()
+        self.assertEqual(body["category"], "child_abuse")
+        self.assertIn("১০৯৮", body["reply_text"])
+        self.assertNotIn("শিশু আইন, ২০১৩ অনুযায়ী", body["reply_text"])
 
     def test_llm_result_is_used_when_configured(self):
         with patch("main.llm.classify_with_llm", return_value={

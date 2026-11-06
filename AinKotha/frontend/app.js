@@ -350,7 +350,7 @@ function addBubble(who, text, category, confidence) {
   let meta = "";
   if (who === "bot" && category && category !== "unknown" && category !== "emergency" && confidence > 0) {
     const pct = Math.round(confidence * 100);
-    meta = `<span class="confidence-badge">${category.replaceAll("_", " ")} ${pct}%</span>`;
+    meta = ` <span class="confidence-badge">${category.replaceAll("_", " ")} ${pct}%</span>`;
   }
   div.innerHTML = `<b>${label}${meta}</b>${escapeHtml(text)}`;
   transcriptBox.appendChild(div);
