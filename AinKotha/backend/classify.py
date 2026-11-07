@@ -6,7 +6,10 @@ CATEGORIES = {
         "label_bn": "পারিবারিক সহিংসতা",
         "label_en": "Domestic violence",
         "keywords": ["স্বামী মারে", "মারধর", "যৌতুক", "নির্যাতন করে", "পারিবারিক সহিংসতা",
-                     "husband hits", "beats me", "dowry", "domestic violence", "abuse me"],
+                     "husband hits", "beats me", "dowry", "domestic violence", "abuse me",
+                     # Banglish
+                     "sami mare", "sami mardhor", "sami amk mare", "sami amake mare",
+                     "mardhor kore", "nirzaton", "jawtuk", "shoami mare", "bor mare"],
     },
     "child_abuse": {
         "label_bn": "শিশু নির্যাতন / শিশু শ্রম",
@@ -14,7 +17,9 @@ CATEGORIES = {
         "keywords": ["শিশু নির্যাতন", "শিশু শ্রম", "বাচ্চাকে মারে", "বাচ্চাকে কাজে",
                      "বাচ্চা কে দিয়ে কাজ", "বাচ্চাকে দিয়ে কাজ", "শিশুকে দিয়ে কাজ",
                      "শিশু কে দিয়ে কাজ", "শিশুকে কাজে", "শিশু পাচার",
-                     "child abuse", "child labor", "my child is", "minor is being"],
+                     "child abuse", "child labor", "my child is", "minor is being",
+                     # Banglish
+                     "bacha mare", "bachake mare", "shishu nirzaton", "shishu shrom"],
     },
     "workplace_wage": {
         "label_bn": "কর্মক্ষেত্র ও মজুরি বিরোধ",
@@ -22,18 +27,40 @@ CATEGORIES = {
         "keywords": ["বেতন দেয় না", "বেতন পাচ্ছি না", "বেতন পাই না", "মজুরি বকেয়া", "মজুরি দেয় না",
                      "চাকরি থেকে বের", "কারখানা", "অফিসে সমস্যা", "অফিস থেকে", "কর্মক্ষেত্র",
                      "salary not paid", "wage", "fired", "unpaid", "employer", "factory", "office",
-                     "not paying salary", "salary problem", "work dispute"],
+                     "not paying salary", "salary problem", "work dispute",
+                     # Banglish
+                     "beton pay na", "beton dey na", "majoni pay na", "chakri theke ber",
+                     "salary pachi na", "salary dey na", "kaj theke ber kore diyeche"],
     },
     "cyber_harassment": {
         "label_bn": "সাইবার হয়রানি",
         "label_en": "Cyber harassment",
         "keywords": ["ফেসবুকে হয়রানি", "ছবি ছড়িয়ে", "অনলাইনে হুমকি", "হ্যাক",
-                     "online harassment", "facebook", "photo leaked", "cyberbully", "online threat", "hacked"],
+                     "online harassment", "facebook", "photo leaked", "cyberbully", "online threat", "hacked",
+                     # Banglish
+                     "facebook e chobi", "chobi chariye", "online e hukum", "hack kore",
+                     "fb te chobi", "net e hoyrani"],
+    },
+    "consumer_rights": {
+        "label_bn": "ভোক্তা অধিকার",
+        "label_en": "Consumer rights",
+        "keywords": [
+            "পণ্যে ভেজাল", "নকল পণ্য", "মেয়াদ উত্তীর্ণ", "বেশি দামে বিক্রি",
+            "পণ্য ফেরত দেবে না", "প্রতারণা করেছে", "ঠকিয়েছে", "ওজনে কম দিয়েছে",
+            "বিজ্ঞাপনের মতো পাইনি", "পণ্য নষ্ট", "সেবা পাইনি", "দোকানদার ঠকিয়েছে",
+            "adulterated", "fake product", "overcharged", "expired product",
+            "consumer complaint", "cheated by seller", "defective product",
+            "refused refund", "wrong weight", "misleading advertisement",
+            # Banglish
+            "meyadottirno", "meyad ottirno", "meyad uthirno", "nokol ponno", "vezel",
+            "dukandaar thokiyeche", "beshi dam", "ponno ferat", "thokano hoyeche"],
     },
     "legal_aid_general": {
         "label_bn": "সাধারণ আইনি সহায়তা",
         "label_en": "General legal aid",
-        "keywords": ["আইনি সাহায্য", "উকিল", "মামলা করতে", "legal help", "lawyer", "file a case"],
+        "keywords": ["আইনি সাহায্য", "উকিল", "মামলা করতে", "legal help", "lawyer", "file a case",
+                     # Banglish
+                     "aini sahaio", "ukil", "mama korte", "aini help"],
     },
 }
 

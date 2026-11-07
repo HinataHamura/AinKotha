@@ -81,13 +81,14 @@ def build_unknown_reply_en() -> dict:
 def build_follow_up_reply(category: str) -> dict:
     services = rt.get_services(category)
     guidance = {
-        "domestic_violence": "যদি এখন বিপদে থাকেন, নিরাপদ জায়গায় যান এবং ৯৯৯ বা ১০৯-এ যোগাযোগ করুন। সম্ভব হলে বিশ্বস্ত কারও সহায়তা নিন এবং ঘটনার তারিখ ও প্রমাণ নিরাপদে রাখুন।",
-        "child_abuse": "শিশুটিকে নিরাপদ জায়গায় রাখুন এবং শিশুর ওপর আরও চাপ বা ক্ষতি হতে দেবেন না। জরুরি বিপদে ৯৯৯, ১০৯ বা ১০৯৮-এ জানান। ঘটনার তথ্য ও প্রমাণ নিরাপদে সংরক্ষণ করুন।",
-        "workplace_wage": "বেতন, কাজের সময় ও নিয়োগের প্রমাণ সংরক্ষণ করুন। লিখিতভাবে নিয়োগকর্তার কাছে পাওনা জানান এবং প্রয়োজনে ১৬৪৩০-এ আইনি সহায়তা নিন।",
-        "cyber_harassment": "আক্রমণাত্মক বার্তার উত্তর না দিয়ে স্ক্রিনশট, লিংক ও সময় সংরক্ষণ করুন। অ্যাকাউন্ট সুরক্ষিত করুন এবং প্রয়োজনে ৯৯৯ বা ১৬৪৩০-এ যোগাযোগ করুন।",
-        "legal_aid_general": "ঘটনার সংক্ষিপ্ত বিবরণ ও প্রাসঙ্গিক কাগজপত্র প্রস্তুত করুন। বিনামূল্যে আইনি সহায়তার জন্য ১৬৪৩০-এ যোগাযোগ করতে পারেন।",
+        "domestic_violence": "যদি এখন বিপদে থাকেন, নিরাপদ জায়গায় যান এবং ৯৯৯ বা ১০৯-এ যোগাযোগ করুন। সম্ভব হলে বিশ্বস্ত কারও সহায়তা নিন এবং ঘটনার তারিখ ও প্রমাণ নিরাপদে রাখুন।",
+        "child_abuse": "শিশুটিকে নিরাপদ জায়গায় রাখুন এবং শিশুর ওপর আরও চাপ বা ক্ষতি হতে দেবেন না। জরুরি বিপদে ৯৯৯, ১০৯ বা ১০৯৮-এ জানান। ঘটনার তথ্য ও প্রমাণ নিরাপদে সংরক্ষণ করুন।",
+        "workplace_wage": "বেতন, কাজের সময় ও নিয়োগের প্রমাণ সংরক্ষণ করুন। লিখিতভাবে নিয়োগকর্তার কাছে পাওনা জানান এবং প্রয়োজনে ১৬৪৩০-এ আইনি সহায়তা নিন।",
+        "cyber_harassment": "আক্রমণাত্মক বার্তার উত্তর না দিয়ে স্ক্রিনশট, লিংক ও সময় সংরক্ষণ করুন। অ্যাকাউন্ট সুরক্ষিত করুন এবং প্রয়োজনে ৯৯৯ বা ১৬৪৩০-এ যোগাযোগ করুন।",
+        "consumer_rights": "পণ্যের রসিদ, মোড়ক বা প্রমাণ সংরক্ষণ করুন। ঘটনার বিবরণ লিখে রাখুন। ১৬১২১ নম্বরে ভোক্তা অধিকার সংরক্ষণ অধিদপ্তরে অভিযোগ করতে পারেন।",
+        "legal_aid_general": "ঘটনার সংক্ষিপ্ত বিবরণ ও প্রাসঙ্গিক কাগজপত্র প্রস্তুত করুন। বিনামূল্যে আইনি সহায়তার জন্য ১৬৪৩০-এ যোগাযোগ করতে পারেন।",
     }
-    text = guidance.get(category, "ঘটনার তথ্য ও প্রমাণ নিরাপদে সংরক্ষণ করুন এবং প্রয়োজন হলে ১৬৪৩০-এ আইনি সহায়তা নিন।")
+    text = guidance.get(category, "ঘটনার তথ্য ও প্রমাণ নিরাপদে সংরক্ষণ করুন এবং প্রয়োজন হলে ১৬৪৩০-এ আইনি সহায়তা নিন।")
     return {
         "reply_text": f"{text} {DISCLAIMER_BN} {NOT_LAWYER_BN}",
         "category": category,
@@ -104,6 +105,7 @@ def build_follow_up_reply_en(category: str) -> dict:
         "child_abuse": "Keep the child in a safe place and prevent further harm. Report immediate danger to 999, 109, or 1098, and preserve relevant details and evidence safely.",
         "workplace_wage": "Keep records of wages, working hours, and employment. Ask the employer in writing about unpaid wages and contact 16430 for legal help if needed.",
         "cyber_harassment": "Do not engage with the harasser. Save screenshots, links, and timestamps, secure your account, and contact 999 or 16430 if needed.",
+        "consumer_rights": "Keep the receipt, packaging, or any evidence of the product or service. Write down the details of what happened. You can file a complaint with the Directorate of National Consumer Rights Protection at 16121.",
         "legal_aid_general": "Prepare a short account of what happened and gather relevant documents. You can contact 16430 for free legal assistance.",
     }
     text = guidance.get(category, "Keep relevant information and evidence safe and contact 16430 for legal assistance if needed.")

@@ -63,5 +63,18 @@
     "operator": "a2i / Cabinet Division",
     "source_url": "https://333.gov.bd/",
     "verified_on": "2026-11-05"
+  },
+  {
+    "service_id": "S6",
+    "name_bn": "ভোক্তা অধিকার সংরক্ষণ অধিদপ্তর হেল্পলাইন",
+    "name_en": "Directorate of National Consumer Rights Protection Helpline",
+    "phone_number": "16121",
+    "categories": ["consumer_rights"],
+    "description_bn": "ভেজাল পণ্য, প্রতারণা বা অতিরিক্ত মূল্য আদায়ের বিরুদ্ধে অভিযোগ দায়ের করুন।",
+    "description_en": "File a complaint against adulterated products, fraud or overcharging.",
+    "hours": "Office hours (Sunday–Thursday)",
+    "operator": "Directorate of National Consumer Rights Protection (DNCRP)",
+    "source_url": "https://dncrp.gov.bd/",
+    "verified_on": "2026-11-07"
   }
 ]

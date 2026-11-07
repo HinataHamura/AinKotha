@@ -88,5 +88,25 @@
     "source_url": "https://bdlaws.minlaw.gov.bd/",
     "verified_by": "Team (auto-collected from bdlaws.minlaw.gov.bd) — awaiting qualified legal reviewer sign-off",
     "verified_on": "2026-11-05"
+  },
+  {
+    "law_id": "L7",
+    "name_bn": "ভোক্তা অধিকার সংরক্ষণ আইন, ২০০৯",
+    "name_en": "Consumer Rights Protection Act, 2009",
+    "year": 2009,
+    "categories": ["consumer_rights"],
+    "summary_bn": "ভেজাল পণ্য বিক্রি, অতিরিক্ত মূল্য আদায়, মিথ্যা বিজ্ঞাপন ও প্রতারণামূলক বাণিজ্যিক কর্মকাণ্ডের বিরুদ্ধে ভোক্তার অধিকার রক্ষা করে এবং শাস্তির বিধান দেয়।",
+    "summary_en": "Protects consumers against adulterated products, overcharging, false advertising and deceptive trade practices, and provides for punishment.",
+    "key_provisions": [
+      "Section 2(20): definition of consumer rights violation",
+      "Section 43: punishment for selling adulterated goods",
+      "Section 45: punishment for selling at above listed price",
+      "Section 52: complaint procedure to DNCRP"
+    ],
+    "keywords_bn": ["ভেজাল পণ্য", "নকল পণ্য", "মেয়াদ উত্তীর্ণ", "বেশি দামে বিক্রি", "ভোক্তা অধিকার"],
+    "keywords_en": ["adulterated product", "fake product", "overcharged", "expired product", "consumer rights"],
+    "source_url": "https://bdlaws.minlaw.gov.bd/act-print-1049.html",
+    "verified_by": "Team (auto-collected from bdlaws.minlaw.gov.bd) — awaiting qualified legal reviewer sign-off",
+    "verified_on": "2026-11-07"
   }
 ]
