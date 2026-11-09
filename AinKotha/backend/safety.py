@@ -39,42 +39,19 @@ _LLM_SAFETY_PROMPT = (
 
 def _llm_safety_check(transcript: str) -> dict | None:
     """FR-3.1: LLM second-pass for indirect/complex danger signals."""
-    api_key = os.getenv("AINKOTHA_LLM_API_KEY")
-    endpoint = os.getenv("AINKOTHA_LLM_ENDPOINT", "https://api.openai.com/v1/chat/completions")
-    model = os.getenv("AINKOTHA_LLM_MODEL", "gpt-4o-mini")
-    if not api_key:
-        return None
-
-    payload = json.dumps({
-        "model": model,
-        "temperature": 0,
-        "max_tokens": 120,
-        "messages": [{"role": "user", "content": _LLM_SAFETY_PROMPT + transcript}],
-    }).encode("utf-8")
-    req = urllib_request.Request(
-        endpoint,
-        data=payload,
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        method="POST",
+    import llm
+    result = llm.chat_json(
+        [{"role": "user", "content": _LLM_SAFETY_PROMPT + transcript}], timeout=8
     )
-    try:
-        with urllib_request.urlopen(req, timeout=5) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-        content = data["choices"][0]["message"]["content"].strip()
-        match = re.search(r'\{[^}]+\}', content, re.DOTALL)
-        if not match:
-            return None
-        result = json.loads(match.group())
-        return {
-            "is_emergency": bool(result.get("is_emergency", False)),
-            "is_self_harm": bool(result.get("is_self_harm", False)),
-        }
-    except Exception as exc:
-        _logger.warning("LLM safety check failed: %s", exc)
+    if result is None:
         return None
+    return {
+        "is_emergency": bool(result.get("is_emergency", False)),
+        "is_self_harm": bool(result.get("is_self_harm", False)),
+    }
 
 
-def check_emergency(transcript: str) -> dict:
+def check_emergency(transcript: str, use_llm: bool = True) -> dict:
     """Returns {is_emergency, is_self_harm}.
     Keyword pass first (fast, offline). LLM second-pass only when keyword pass is negative (FR-3.1)."""
     text = transcript.lower()
@@ -85,7 +62,7 @@ def check_emergency(transcript: str) -> dict:
         return {"is_emergency": True, "is_self_harm": is_self_harm_kw}
 
     # LLM second-pass catches indirect phrasing like "I don't want to see tomorrow"
-    llm_result = _llm_safety_check(transcript)
+    llm_result = _llm_safety_check(transcript) if use_llm else None
     if llm_result:
         return llm_result
 

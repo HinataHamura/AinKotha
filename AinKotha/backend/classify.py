@@ -24,7 +24,7 @@ CATEGORIES = {
     "workplace_wage": {
         "label_bn": "কর্মক্ষেত্র ও মজুরি বিরোধ",
         "label_en": "Workplace and wage dispute",
-        "keywords": ["বেতন দেয় না", "বেতন পাচ্ছি না", "বেতন পাই না", "মজুরি বকেয়া", "মজুরি দেয় না",
+        "keywords": ["বেতন দেয় না", "বেতন দিচ্ছে না", "বেতন দেয়নি", "বেতন দেননি", "বেতন পাচ্ছি না", "বেতন পাই না", "মজুরি বকেয়া", "মজুরি দেয় না",
                      "চাকরি থেকে বের", "কারখানা", "অফিসে সমস্যা", "অফিস থেকে", "কর্মক্ষেত্র",
                      "salary not paid", "wage", "fired", "unpaid", "employer", "factory", "office",
                      "not paying salary", "salary problem", "work dispute",

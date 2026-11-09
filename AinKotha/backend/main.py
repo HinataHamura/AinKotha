@@ -4,6 +4,7 @@ import time
 import json
 import logging as _logging
 import os
+import re
 from io import BytesIO
 from datetime import datetime, timezone
 from pathlib import Path
@@ -115,6 +116,8 @@ def chat(req: ChatRequest):
         "emergency": False,
         "history": [],      # FR-4.3: list of {role, text} for context
         "last_category": None,
+        "agent_turns": 0,   # questions asked by the LLM agent since the last answer was delivered
+        "delivered": None,  # category whose verified laws/helplines were already shared
     })
 
     if not transcript:
@@ -139,7 +142,14 @@ def chat(req: ChatRequest):
         session["history"] = session["history"][-10:]
 
     # FR-3: safety first, always
-    danger = safety.check_emergency(transcript)
+    danger = safety.check_emergency(transcript, use_llm=False)  # keywords only; the agent flags indirect danger below
+    agent = None
+    if not danger["is_emergency"]:
+        agent = llm.converse(session["history"], language)
+        if agent and agent["is_emergency"]:
+            danger = {"is_emergency": True, "is_self_harm": agent["is_self_harm"]}
+        elif not agent:
+            danger = safety.check_emergency(transcript)  # LLM unavailable: normal check (also a no-op if it is down)
     if danger["is_emergency"]:
         session["emergency"] = True
         resp = (
@@ -152,6 +162,32 @@ def chat(req: ChatRequest):
         return resp
     if session["emergency"]:
         session["emergency"] = False
+
+    # Conversational LLM agent: chats naturally, asks questions, then hands over to the verified dataset.
+    if agent:
+        category = agent["category"]
+        ready = agent["ready"] or (session["agent_turns"] >= 3 and category != "unknown")
+        session["history"].append({"role": "bot", "text": agent["reply"]})
+        if not ready:
+            session["agent_turns"] += 1
+            if category != "unknown":
+                session["last_category"] = category
+            resp = {"reply_text": agent["reply"], "category": category, "is_emergency": False,
+                    "laws": [], "services": [], "confidence": 0.5}
+            _log(req.session_id, "clarify", False, int((time.time() - start) * 1000))
+            return resp
+        # Ready: LLM's short summary + laws/helplines retrieved ONLY from the verified dataset
+        session["agent_turns"] = 0
+        session["last_category"] = category
+        if session["delivered"] == category:
+            facts = responder.build_follow_up_reply_en(category) if language == "en" else responder.build_follow_up_reply(category)
+        else:
+            facts = responder.build_reply_en(category, intro=False) if language == "en" else responder.build_reply(category, intro=False)
+            session["delivered"] = category
+        facts["reply_text"] = f"{agent['reply']} {facts['reply_text']}"
+        facts["confidence"] = 0.9
+        _log(req.session_id, category, False, int((time.time() - start) * 1000))
+        return facts
 
     # FR-4: classify — pass history context to LLM for multi-turn awareness
     history_context = " | ".join(t["text"] for t in session["history"][-4:])
@@ -223,28 +259,72 @@ def text_to_speech(req: TTSRequest):
     text = req.text.strip()
     if not text:
         raise HTTPException(status_code=400, detail="Text is required")
-    if len(text) > 1000:
+    if len(text) > 2500:
         raise HTTPException(status_code=400, detail="Text is too long")
 
     lang = "en" if req.language.lower().startswith("en") else "bn"
-    slow = req.slow
-    cache_key = f"{lang}:{'slow' if slow else 'normal'}:{text}"
-    cached_audio = _tts_cache.get(cache_key)
-    if cached_audio is None:
-        last_error = None
-        for domain in _tts_domains:
-            audio = BytesIO()
-            try:
-                gTTS(text=text, lang=lang, tld=domain, slow=slow).write_to_fp(audio)
-                cached_audio = audio.getvalue()
-                break
-            except Exception as exc:
-                last_error = exc
-        if cached_audio is None:
-            raise HTTPException(status_code=503, detail="Bangla TTS is temporarily unavailable") from last_error
-        _tts_cache[cache_key] = cached_audio
-    return StreamingResponse(BytesIO(cached_audio), media_type="audio/mpeg")
+    try:
+        audio = synthesize(text, lang, req.slow)
+    except Exception as exc:
+        _logger.warning("TTS failed: %s", exc)
+        raise HTTPException(status_code=503, detail="Bangla TTS is temporarily unavailable") from exc
+    return StreamingResponse(BytesIO(audio), media_type="audio/mpeg")
 
+
+def cached_audio(text: str, lang: str = "bn", slow: bool = False) -> bytes | None:
+    """Already-synthesized audio, or None (never touches the network)."""
+    return _tts_cache.get(f"{lang}:{'slow' if slow else 'normal'}:{text}")
+
+
+def synthesize(text: str, lang: str = "bn", slow: bool = False) -> bytes:
+    """Text -> MP3 bytes (cached). Raises on failure. Shared by /api/tts and the Twilio phone flow."""
+    cache_key = f"{lang}:{'slow' if slow else 'normal'}:{text}"
+    audio = _tts_cache.get(cache_key)
+    if audio is None:
+        # gTTS fails when it fetches many pieces in one call, so fetch short pieces separately and join the MP3s.
+        # Sequential on purpose: parallel requests get throttled by Google (22s vs ~3s).
+        audio = b"".join(_tts_piece(p, lang, slow) for p in _split_for_tts(text))
+        _tts_cache[cache_key] = audio
+    return audio
+
+
+def _split_for_tts(text: str, limit: int = 90) -> list[str]:
+    """Split on sentence/clause punctuation, then pack pieces up to `limit` characters."""
+    parts = [p.strip() for p in re.split(r"(?<=[।.?!;,—])\s+|\s+—\s+", text) if p.strip()]
+    pieces: list[str] = []
+    for part in parts:
+        while len(part) > limit:  # no punctuation: cut at the last space before the limit
+            cut = part.rfind(" ", 0, limit)
+            cut = cut if cut > 0 else limit
+            pieces.append(part[:cut].strip())
+            part = part[cut:].strip()
+        if pieces and part and len(pieces[-1]) + 1 + len(part) <= limit:
+            pieces[-1] += " " + part
+        elif part:
+            pieces.append(part)
+    return pieces or [text]
+
+
+def _tts_piece(piece: str, lang: str, slow: bool) -> bytes:
+    last_error: Exception | None = None
+    for domain in _tts_domains * 2:  # Google's TTS stalls at random; short timeout + a second pass over the mirrors
+        audio = BytesIO()
+        try:
+            gTTS(text=piece, lang=lang, tld=domain, slow=slow, timeout=4).write_to_fp(audio)
+            return audio.getvalue()
+        except Exception as exc:
+            last_error = exc
+    raise last_error  # type: ignore[misc]
+
+
+import twilio_voice  # noqa: E402  (phone-call channel; imports `main` lazily to reuse chat()/synthesize())
+
+app.include_router(twilio_voice.router)
+
+
+@app.on_event("startup")
+def _warm_phone_prompts():
+    twilio_voice.warm_up()  # pre-build fixed phone prompts so the first call never waits on gTTS
 
 # --- Serve frontend (single process for easy local demo) ---
 FRONTEND_DIR = APP_DIR.parent / "frontend"

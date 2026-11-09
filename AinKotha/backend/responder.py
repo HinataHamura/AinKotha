@@ -60,9 +60,10 @@ def build_clarify_reply_en() -> dict:
 
 def build_unknown_reply() -> dict:
     services = rt.get_services("unknown")
+    legal_aid = next((x for x in services if x["service_id"] == "S3"), services[0])
     text = (
         "দুঃখিত, এই নির্দিষ্ট বিষয়ে আমার কাছে তথ্য নেই। "
-        f"তবে আপনি জাতীয় আইনগত সহায়তা হেল্পলাইন {services[0]['phone_number']} নম্বরে কল করে সাহায্য পেতে পারেন। "
+        f"তবে আপনি জাতীয় আইনগত সহায়তা হেল্পলাইন {legal_aid['phone_number']} নম্বরে কল করে সাহায্য পেতে পারেন। "
         + DISCLAIMER_BN
     )
     return {"reply_text": text, "category": "unknown", "is_emergency": False, "laws": [], "services": services}
@@ -70,9 +71,10 @@ def build_unknown_reply() -> dict:
 
 def build_unknown_reply_en() -> dict:
     services = rt.get_services("unknown")
+    legal_aid = next((x for x in services if x["service_id"] == "S3"), services[0])
     text = (
         "I am not sure I have information about this specific issue. "
-        f"Please call the National Legal Aid Helpline at {services[0]['phone_number']}. "
+        f"Please call the National Legal Aid Helpline at {legal_aid['phone_number']}. "
         f"{DISCLAIMER_EN} {NOT_LAWYER_EN}"
     )
     return {"reply_text": text, "category": "unknown", "is_emergency": False, "laws": [], "services": services}
@@ -118,12 +120,12 @@ def build_follow_up_reply_en(category: str) -> dict:
     }
 
 
-def build_reply(category: str) -> dict:
+def build_reply(category: str, intro: bool = True) -> dict:
     laws = rt.get_laws(category)
     services = rt.get_services(category)
     label_bn = CATEGORIES[category]["label_bn"]
 
-    parts = [f"বুঝতে পেরেছি, এটি {label_bn}-সংক্রান্ত সমস্যা।"]
+    parts = [f"বুঝতে পেরেছি, এটি {label_bn}-সংক্রান্ত সমস্যা।"] if intro else []
     for law in laws:
         parts.append(f"{law['name_bn']} অনুযায়ী, {law['summary_bn']}")
     if services:
@@ -140,11 +142,11 @@ def build_reply(category: str) -> dict:
     }
 
 
-def build_reply_en(category: str) -> dict:
+def build_reply_en(category: str, intro: bool = True) -> dict:
     laws = rt.get_laws(category)
     services = rt.get_services(category)
     label_en = CATEGORIES[category]["label_en"]
-    parts = [f"I understand this is a {label_en} issue."]
+    parts = [f"I understand this is a {label_en} issue."] if intro else []
     for law in laws:
         parts.append(f"{law['name_en']} says: {law['summary_en']}")
     if services:

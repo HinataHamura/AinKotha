@@ -270,38 +270,25 @@ async function speak(text, slow = false) {
   micState.textContent = "🔊 বলছি...";
 
   try {
-    const res = await fetch("/api/tts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, language, slow }),
-    });
-    if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
-    const audioUrl = URL.createObjectURL(await res.blob());
-    if (generation !== speechGeneration) {
-      URL.revokeObjectURL(audioUrl);
-      return;
-    }
-    stopAudio(false);
-    currentAudio = new Audio(audioUrl);
-    await currentAudio.play();
-    await new Promise((resolve) => {
-      finishCurrentSpeech = resolve;
-      const finish = () => {
-        if (finishCurrentSpeech !== resolve) return;
-        finishCurrentSpeech = null;
+    // Speak sentence by sentence: the first piece starts quickly while the next one downloads.
+    const pieces = splitForTts(text);
+    let next = fetchTtsAudio(pieces[0], slow);
+    for (let i = 0; i < pieces.length; i++) {
+      const audioUrl = await next;
+      if (i + 1 < pieces.length) next = fetchTtsAudio(pieces[i + 1], slow);
+      if (generation !== speechGeneration) {
         URL.revokeObjectURL(audioUrl);
-        if (currentAudio && currentAudio.src === audioUrl) currentAudio = null;
-        orb.classList.remove("speaking");
-        micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
-        assistantSpeaking = false;
-        spokenText = "";
-        ignoreSpeechUntil = Date.now() + 500;
-        resetSilenceTimer();
-        resolve();
-      };
-      currentAudio.onended = finish;
-      currentAudio.onerror = finish;
-    });
+        return;
+      }
+      await playTtsUrl(audioUrl);
+      if (generation !== speechGeneration) return;
+    }
+    orb.classList.remove("speaking");
+    micState.textContent = muted ? "🔇 মাইক বন্ধ" : "🎙️ শুনছি...";
+    assistantSpeaking = false;
+    spokenText = "";
+    ignoreSpeechUntil = Date.now() + 500;
+    resetSilenceTimer();
   } catch (err) {
     if (generation !== speechGeneration) return;
     console.warn("Bangla TTS unavailable:", err);
@@ -312,6 +299,54 @@ async function speak(text, slow = false) {
     ignoreSpeechUntil = Date.now() + 500;
     resetSilenceTimer();
   }
+}
+
+// Split on sentence/clause punctuation and pack into pieces of at most `limit` characters.
+function splitForTts(text, limit = 90) {
+  const parts = text.split(/(?<=[।.?!;,])\s+|\s+—\s+/u).map((p) => p.trim()).filter(Boolean);
+  const pieces = [];
+  for (let part of parts) {
+    while (part.length > limit) {
+      let cut = part.lastIndexOf(" ", limit);
+      if (cut <= 0) cut = limit;
+      pieces.push(part.slice(0, cut).trim());
+      part = part.slice(cut).trim();
+    }
+    if (pieces.length && part && pieces[pieces.length - 1].length + 1 + part.length <= limit) {
+      pieces[pieces.length - 1] += " " + part;
+    } else if (part) {
+      pieces.push(part);
+    }
+  }
+  return pieces.length ? pieces : [text];
+}
+
+async function fetchTtsAudio(text, slow) {
+  const res = await fetch("/api/tts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, language, slow }),
+  });
+  if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
+  return URL.createObjectURL(await res.blob());
+}
+
+// Play one audio piece; resolves when it ends, fails, or stopAudio() interrupts it.
+function playTtsUrl(audioUrl) {
+  return new Promise((resolve) => {
+    const audio = new Audio(audioUrl);
+    currentAudio = audio;
+    finishCurrentSpeech = resolve;
+    const done = () => {
+      URL.revokeObjectURL(audioUrl);
+      if (currentAudio === audio) currentAudio = null;
+      if (finishCurrentSpeech === resolve) finishCurrentSpeech = null;
+      resolve();
+    };
+    audio.onended = done;
+    audio.onerror = done;
+    audio.play().catch(done);
+  });
 }
 
 function isAssistantEcho(text) {
