@@ -1,0 +1,50 @@
+<sigml>
+        <hns_sign gloss="কোথায়">
+                <hamnosys_nonmanual>
+			            <hnm_mouthpicture picture="te_Ik"/>
+		        </hamnosys_nonmanual>
+                <hamnosys_manual>     
+                        <hamsymmpar/> 
+                        <hamflathand/>
+                        <hamparbegin/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hambetween/>
+                        <hampalml/>
+                        <hamplus/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hambetween/>
+                        <hampalmr/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamchest/>
+                        <hamlrat/>
+                        <hamplus/>
+                        <hamlrat/>
+                        <hamchest/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammoveu/>
+                        <hamarcl/>
+                        <hamplus/>
+                        <hammoveu/>
+                        <hamarcr/>
+                        <hamparend/>
+                        <hamreplace/>
+                        <hamparbegin/>
+                        <hamextfingeror/>
+                        <hambetween/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hamplus/>
+                        <hamextfingerol/>
+                        <hambetween/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hamparend/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

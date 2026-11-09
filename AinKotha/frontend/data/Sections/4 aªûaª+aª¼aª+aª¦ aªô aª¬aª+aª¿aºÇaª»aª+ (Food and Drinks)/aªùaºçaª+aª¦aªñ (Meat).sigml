@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+
+<hns_sign gloss="">
+
+<hamnosys_nonmanual>
+
+<hnm_mouthgesture tag="D07"/>	
+</hamnosys_nonmanual>
+
+<hamnosys_manual>
+
+<hamfist/>
+<hamthumbacrossmod/>
+<hamextfingeru/>
+<hampalmdl/>
+<hamlips/>
+<hamlrat/>
+<hamseqbegin/>
+<hamtouch/>
+<hamhandback/>
+<hamseqend/>
+<hammoveor/>
+<hamlargemod/>
+</hamnosys_manual>
+
+</hns_sign>
+
+</sigml>

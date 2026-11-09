@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="শোনা">
+                <hamnosys_nonmanual/> 
+                <hamnosys_manual>     
+                        <hamfinger2/> 
+                        <hamextfingerul/>
+                        <hambetween/>
+                        <hamextfingeri/>
+                        <hampalmd/>
+                        <hamearlobe/>
+                        <hamreplace/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamreplace/>
+                        <hamextfingerul/>
+                        <hambetween/>
+                        <hamextfingeri/>
+                        <hampalmd/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="মুরগী">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamfingerbendmod/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamnose/>
+                        <hamseqbegin/>
+                        <hamclose/>
+                        <hamfingerbase/>
+                        <hamindexfinger/>
+                        <hamseqend/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammoveo/>
+                        <hammoved/>
+                        <hamsmallmod/>
+                        <hamreplace/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingeru/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingero/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

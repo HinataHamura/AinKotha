@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamfingerhookmod/>
+                        <hamextfingerul/>
+                        <hampalmd/>
+                        <hamneck/>
+                        <hamlrat/>
+                        <hambetween/>
+                        <hamhead/>
+                        <hamlrat/>
+                        <hamclose/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammovedl/>
+                        <hamlargemod/>
+                        <hamreplace/>
+                        <hamextfingerol/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamrepeatfromstart/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

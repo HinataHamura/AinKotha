@@ -1,0 +1,66 @@
+{
+  "_comment": "Words must match cleaned English labels in data/Sections/dataset.json. digitGloss[i] = exact gloss of the Numbers-section file for digit i (labels there are Bengali-only; mapping verified by decoding, please eyeball in cwasa test). Digit 0: the Numbers section has no zero sign (the file previously assumed was 'দশ' = ten), so zero shows as a card only.",
+  "digits": [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine"
+  ],
+  "call": [
+    "call",
+    "telephone",
+    "mobile phone"
+  ],
+  "reasons": {
+    "emergency": [
+      "danger",
+      "police",
+      "ambulance"
+    ],
+    "domestic_violence": [
+      "hit",
+      "police"
+    ],
+    "child_abuse": [
+      "child",
+      "police"
+    ],
+    "workplace_wage": [
+      "salary",
+      "job",
+      "work"
+    ],
+    "cyber_harassment": [
+      "mobile phone",
+      "police"
+    ],
+    "consumer_rights": [
+      "buyer",
+      "price",
+      "market"
+    ],
+    "legal_aid_general": [
+      "lawyer",
+      "law",
+      "court"
+    ]
+  },
+  "digitGloss": [
+    "",
+    "aªÅaªò",
+    "aªªaºüaªç",
+    "aªñaª+aª¿",
+    "aªÜaª+aª¦",
+    "aª¬aª+aªüaªÜ",
+    "aª¢aª»aª+",
+    "aª+aª+aªñ",
+    "aªåaªƒ",
+    "aª¿aª»aª+"
+  ]
+}

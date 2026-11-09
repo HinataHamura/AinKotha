@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="ঘুম">
+                <hamnosys_nonmanual>
+                    <hnm_head tag="TL"/>
+                    <hnm_head tag="TL"/>
+                    <hnm_head tag="TL"/>
+                    <hnm_head tag="TL"/>
+                </hamnosys_nonmanual>
+                <hamnosys_manual>     
+                        <hamsymmpar/> 
+                        <hamflathand/>
+                        <hamparbegin/>
+                        <hamextfingerul/>
+                        <hambetween/>
+                        <hamextfingerl/>
+                        <hampalmd/>
+                        <hamplus/>
+                        <hamextfingerul/>
+                        <hampalmu/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hampalm/>
+                        <hamtouch/>
+                        <hamplus/>
+                        <hamlrat/>
+                        <hamunderchin/>
+                        <hambetween/>
+                        <hamneck/>
+                        <hamtouch/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

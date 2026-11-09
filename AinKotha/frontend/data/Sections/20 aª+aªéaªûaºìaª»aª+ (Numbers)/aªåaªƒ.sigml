@@ -1,0 +1,12 @@
+ <sigml>
+ <hns_sign gloss="আট">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger23/>
+                        <hamthumboutmod/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamneck/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

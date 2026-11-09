@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="পেন্সিল">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamparbegin/>
+                        <hamextfingerol/>
+                        <hambetween/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hamplus/>
+                        <hamextfingero/>
+                        <hambetween/>
+                        <hamextfingeror/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamfingertip/>
+                        <hamindexfinger/>
+                        <hamplus/>
+                        <hamfingermidjoint/>
+                        <hamindexfinger/>
+                        <hamparend/>
+                        <hamtouch/>
+                        <hamneck/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammovedr/>
+                        <hamsmallmod/>
+                        <hammoveor/>
+                        <hamsmallmod/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammoveul/>
+                        <hammoveil/>
+                        <hamarcu/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammovedr/>
+                        <hammoveor/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamnomotion/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

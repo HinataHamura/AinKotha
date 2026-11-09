@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hamparbegin/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamplus/>
+                        <hamflathand/>
+                        <hamthumboutmod/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamextfingerl/>
+                        <hampalmd/>
+                        <hamplus/>
+                        <hamextfingero/>
+                        <hampalmr/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hampalm/>
+                        <hamplus/>
+                        <hamfingertip/>
+                        <hamparend/>
+                        <hamtouch/>
+                        <hamshouldertop/>
+                        <hamclose/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingerl/>
+                        <hampalml/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamnomotion/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+<hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hampalmu/>
+                        <hamshouldertop/>
+                        <hamlrat/>
+                        <hambetween/>
+                        <hamshouldertop/>
+                        <hamclose/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

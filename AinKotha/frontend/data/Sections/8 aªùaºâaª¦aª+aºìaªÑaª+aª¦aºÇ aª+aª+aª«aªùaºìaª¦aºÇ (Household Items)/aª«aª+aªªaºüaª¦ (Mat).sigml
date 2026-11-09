@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hamceeall/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hamshoulders/>
+                        <hamclose/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingeruo/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingerdo/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingerdo/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingeruo/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamparend/>
+                        <hamrepeatreverse/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+<hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hamceeall/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hamshoulders/>
+                        <hamnomotion/>
+                        <hammovei/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

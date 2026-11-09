@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hampinch12/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamparbegin/>
+                        <hamshoulders/>
+                        <hamlrbeside/>
+                        <hambetween/>
+                        <hamshoulders/>
+                        <hamclose/>
+                        <hamplus/>
+                        <hamshoulders/>
+                        <hamparend/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammoveo/>
+                        <hammoveol/>
+                        <hamsmallmod/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamnomotion/>
+                        <hamparend/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+<hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfist/>
+                        <hamthumboutmod/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamnostrils/>
+                        <hambetween/>
+                        <hamnose/>
+                        <hamseqbegin/>
+                        <hamtouch/>
+                        <hamfingertip/>
+                        <hamthumb/>
+                        <hamseqend/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamreplace/>
+                        <hamextfingerul/>
+                        <hampalmr/>
+                        <hamparend/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

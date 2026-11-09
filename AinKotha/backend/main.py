@@ -236,6 +236,12 @@ def chat(req: ChatRequest):
     return resp
 
 
+@app.get("/api/services")
+def list_services():
+    """Verified helplines for the sign-language section (read-only, from services.json)."""
+    return rt.SERVICES
+
+
 @app.get("/api/health")
 def health():
     return {"status": "ok"}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="প্রশিক্ষণ">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamfingerhookmod/>
+                        <hambetween/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hambetween/>
+                        <hamextfingerir/>
+                        <hampalml/>
+                        <hamneck/>
+                        <hamlrat/>
+                        <hamtouch/>
+                        <hamreplace/>
+                        <hamextfingeru/>
+                        <hambetween/>
+                        <hamextfingeril/>
+                        <hampalmr/>
+                        <hamlrat/>
+                        <hamneck/>
+                        <hamtouch/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

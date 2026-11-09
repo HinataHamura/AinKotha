@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+
+
+<hns_sign gloss="">
+<hamnosys_nonmanual>
+</hamnosys_nonmanual>
+<hamnosys_manual>
+<hamfinger23/>
+<hamthumboutmod/>
+<hambetween/>
+<hamfinger23/>
+<hamthumboutmod/>
+<hamfingerstraightmod/>
+<hamextfingeru/>
+<hampalmdl/>
+<hamshoulders/>
+<hambetween/>
+<hamshoulders/>
+<hamlrat/>
+<hamclose/>
+<hammovel/>
+<hamsmallmod/>
+<hammover/>
+<hamsmallmod/>
+<hamrepeatfromstart/>
+</hamnosys_manual>
+</hns_sign>
+
+
+<hns_sign gloss="">
+<hamnosys_nonmanual>
+</hamnosys_nonmanual>
+<hamnosys_manual>
+<hamcee12/>
+<hamextfingero/>
+<hampalmd/>
+<hamchest/>
+<hamclose/>
+<hamparbegin/>
+<hammoveu/>
+<hamreplace/>
+<hampinch12open/>
+<hambetween/>
+<hampinch12open/>
+<hamfingerstraightmod/>
+<hamextfingeru/>
+<hambetween/>
+<hamextfingero/>
+<hamparend/>
+<hamrepeatfromstart/>
+</hamnosys_manual>
+</hns_sign>
+
+
+<hns_sign gloss="">
+<hamnosys_nonmanual>
+</hamnosys_nonmanual>
+<hamnosys_manual>
+<hamfinger2/>
+<hamthumbacrossmod/>
+<hamextfingerur/>
+<hampalml/>
+<hamshouldertop/>
+<hamlrat/>
+<hamclose/>
+<hammover/>
+<hamsmallmod/>
+</hamnosys_manual>
+</hns_sign>
+
+
+        <hns_sign gloss="ধরা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                        <hambetween/>
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                        <hamfingerhookmod/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamshoulders/>
+	        <hamclose/>
+                        <hamparbegin/>
+                        <hammoveo/>
+                        <hamreplace/>
+                        <hamfist/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+
+</sigml>

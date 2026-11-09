@@ -26,10 +26,27 @@
       </div>
     </div>
     <button id="helpBtn" class="icon-btn" title="সংখ্যাগুলো আবার শুনুন">নম্বরসমূহ</button>
+    <button id="signBtn" class="icon-btn" aria-pressed="false" title="বাংলা সাইন ল্যাংগুয়েজ">🤟 সাইন</button>
     <button id="languageBtn" class="icon-btn" title="Switch language">English</button>
   </header>
 
   <main class="stage">
+
+      <!-- BdSL sign panel: auto-shows why + which number to call -->
+    <div id="signPanel" class="sign-panel hidden" aria-live="polite">
+      <div id="signAvatarWrap" class="sign-avatar hidden">
+        <div class="CWASAAvatar av0" style="width:260px;height:300px"></div>
+        <div class="CWASASiGMLURL av0" style="display:none"><input type="text" class="txtSiGMLURL av0"></div>
+      </div>
+      <div class="sign-card">
+        <ul id="signList" class="sign-list"></ul>
+        <div id="signSmall" class="sign-small"></div>
+        <div id="signBig" class="sign-big"></div>
+        <div id="signDots" class="sign-dots"></div>
+        <button id="signClose" class="btn btn-small hidden" type="button">← ফিরে যান</button>
+        <button id="signReplay" class="btn btn-small" type="button">↻ আবার দেখান</button>
+      </div>
+    </div>
 
     <!-- Consent / Disclaimer screen -->
     <section id="consentScreen" class="panel consent-panel">
@@ -52,6 +69,7 @@
         <button id="startCallBtn" class="btn btn-primary btn-lg" disabled>
           <span id="startCallLabel">কল শুরু করুন</span>
         </button>
+        <p class="fallback-link"><a href="#" id="openSignSection">🤟 বাংলা সাইন ল্যাংগুয়েজে হেল্পলাইন নম্বর দেখুন</a></p>
         <p class="fallback-link"><a href="#" id="useTextInstead" id="useTextLabel">ভয়েসের বদলে টেক্সটে লিখতে চাই</a></p>
       </div>
     </section>
@@ -115,6 +133,7 @@
 
   <footer class="footer-note">প্রোটোটাইপ সংস্করণ · বাস্তব ফোন নম্বর নয় · AinKotha</footer>
 
+  <script src="sign.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

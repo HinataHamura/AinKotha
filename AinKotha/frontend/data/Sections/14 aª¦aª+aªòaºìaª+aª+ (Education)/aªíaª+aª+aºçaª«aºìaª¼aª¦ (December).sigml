@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="ডিসেম্বর">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamparbegin/>
+                        <hamfinger2/>
+                        <hamthumbopenmod/>
+                        <hamfingerbendmod/>
+                        <hambetween/>
+                        <hamfinger2/>
+                        <hamthumbopenmod/>
+                        <hamextfingerul/>
+                        <hambetween/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamplus/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hampalmr/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamfingernail/>
+                        <hamindexfinger/>
+                        <hamplus/>
+                        <hamfingertip/>
+                        <hamindexfinger/>
+                        <hamparend/>
+                        <hamtouch/>
+                        <hamneck/>
+                        <hamnomotion/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="বৃষ্টি">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hampinchall/>
+                        <hamextfingerul/>
+                        <hampalmd/>
+                        <hamforehead/>
+                        <hamlrbeside/>
+                        <hamclose/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamreplace/>
+                        <hamextfingerl/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammoveu/>
+                        <hamreplace/>
+                        <hamextfingerul/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamreplace/>
+                        <hamextfingerl/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammoveu/>
+                        <hamreplace/>
+                        <hamextfingerul/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamreplace/>
+                        <hamfinger2345/>
+                        <hamthumbopenmod/>
+                        <hamfingerbendmod/>
+                        <hambetween/>
+                        <hamfinger2345/>
+                        <hamthumbopenmod/>
+                        <hamextfingerl/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

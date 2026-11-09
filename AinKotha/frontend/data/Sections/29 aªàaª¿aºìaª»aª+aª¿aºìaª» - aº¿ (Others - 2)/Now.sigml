@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="এখন">
+                <hamnosys_nonmanual>
+			<hnm_mouthpicture picture="anot"/>
+		</hamnosys_nonmanual>
+                <hamnosys_manual>
+                        <hamflathand/>
+                        <hamextfingero/>
+                        <hampalml/>
+                        <hamshoulders/>
+                        <hammoved/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

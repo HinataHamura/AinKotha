@@ -256,3 +256,25 @@ background: rgba(127, 29, 29, 0.35); }
   .orb-ring.r1 { width: 84px; height: 84px; }
   .orb-ring.r2 { width: 120px; height: 120px; }
 }
+
+/* BdSL sign panel */
+.sign-panel { display: flex; gap: 16px; align-items: flex-start; justify-content: center; flex-wrap: wrap;
+  padding: 14px; border-radius: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); width: 100%; max-width: 720px; }
+.sign-panel.hidden, .sign-avatar.hidden { display: none; }
+.sign-avatar { border-radius: 12px; overflow: hidden; background: #0b1020; }
+.sign-card { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; min-width: 220px; }
+.sign-list { list-style: none; margin: 0; padding: 0; width: 100%; max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.sign-list:empty { display: none; }
+.sign-list li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 14px;
+  background: rgba(255,255,255,0.06); border: 1px solid transparent; }
+.sign-list li:hover { background: rgba(255,255,255,0.12); }
+.sign-list li.on { border-color: var(--accent); background: rgba(255,255,255,0.14); }
+.sign-list li b { letter-spacing: 1px; white-space: nowrap; }
+.sign-small { font-size: 14px; opacity: .75; }
+.sign-big { font-size: 44px; font-weight: 700; line-height: 1.1; text-align: center; min-height: 52px; }
+.sign-big.sign-reason, .sign-big.sign-number { font-size: 32px; }
+.sign-big.sign-number { color: #fca5a5; letter-spacing: 4px; font-size: 48px; }
+.sign-dots { display: flex; gap: 6px; }
+.sign-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+.sign-dots span.on { background: var(--accent); }
+.icon-btn.active { background: var(--accent); color: #fff; }

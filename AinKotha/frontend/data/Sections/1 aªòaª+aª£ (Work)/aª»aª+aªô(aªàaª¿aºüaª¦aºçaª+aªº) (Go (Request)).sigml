@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="যাও(অনুরোধ)">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamflathand/>
+                        <hambetween/>
+                        <hamflathand/>
+                        <hamfingerbendmod/>
+                        <hamextfingerul/>
+                        <hampalml/>
+                        <hamshoulders/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamextfingero/>
+                        <hambetween/>
+                        <hamextfingerur/>
+                        <hampalmu/>
+                        <hamshoulders/>
+                        <hamlrbeside/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2345/>
+                        <hamfingerhookmod/>
+                        <hamthumboutmod/>
+                        <hambetween/>
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hameyes/>
+                        <hambetween/>
+                        <hamnostrils/>
+                        <hamclose/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hamreplace/>
+                        <hamfist/>
+                        <hamthumbacrossmod/>
+                        <hamparend/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+<hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hamflathand/>
+                        <hamfingerstraightmod/>
+                        <hambetween/>
+                        <hamflathand/>
+                        <hamextfingeril/>
+                        <hambetween/>
+                        <hamextfingerl/>
+                        <hampalmr/>
+                        <hamshouldertop/>
+                        <hambetween/>
+                        <hamneck/>
+                        <hamseqbegin/>
+                        <hamtouch/>
+                        <hamfingertip/>
+                        <hammiddlefinger/>
+                        <hamseqend/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hammovedo/>
+                        <hamparend/>
+                        <hamnomotion/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

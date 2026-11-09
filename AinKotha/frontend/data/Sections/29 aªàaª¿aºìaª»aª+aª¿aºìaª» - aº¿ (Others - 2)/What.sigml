@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<sigml>
+        <hns_sign gloss="কী">
+                <hamnosys_nonmanual>
+			 <hnm_mouthpicture picture="te_Ik"/>
+		</hamnosys_nonmanual>  
+                <hamnosys_manual>       
+                        <hamsymmpar/>   
+                        <hamflathand/>  
+                        <hamparbegin/>  
+                        <hamextfingero/>
+                        <hampalmu/>     
+                        <hambetween/>
+                        <hampalml/>
+                        <hamplus/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hambetween/>
+                        <hampalmr/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamchest/>
+                        <hamlrat/>
+                        <hamplus/>
+                        <hamlrat/>
+                        <hamchest/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammoveu/>
+                        <hamsmallmod/>
+                        <hamarcl/>
+                        <hamplus/>
+                        <hammoveu/>
+                        <hamsmallmod/>
+                        <hamarcr/>
+                        <hamparend/>
+                        <hamreplace/>
+                        <hamparbegin/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hambetween/>
+                        <hampalmr/>
+                        <hamplus/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hambetween/>
+                        <hampalml/>
+                        <hamparend/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

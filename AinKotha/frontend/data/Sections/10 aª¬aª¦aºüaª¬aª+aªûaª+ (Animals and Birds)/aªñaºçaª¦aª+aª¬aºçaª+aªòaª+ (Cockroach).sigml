@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="তেলাপোকা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamcee12/>
+                        <hamfingerstraightmod/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamcheek/>
+                        <hamclose/>
+                        <hamnomotion/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hammoveo/>
+                        <hamreplace/>
+                        <hamcee12/>
+                        <hamfingerstraightmod/>
+                        <hamindexfinger/>
+                        <hammiddlefinger/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammoveol/>
+                        <hamfingerplay/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

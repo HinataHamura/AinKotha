@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="দৌড়ানো">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamfist/>
+                        <hamextfingero/>
+                        <hamparbegin/>
+                        <hampalml/>
+                        <hamplus/>
+                        <hampalmr/>
+                        <hamparend/>
+                        <hampalm/>
+                        <hamclose/>
+                        <hamparbegin/>
+                        <hamseqbegin/>
+                        <hamcirclel/>
+                        <hamclocku/>
+                        <hamseqend/>
+                        <hamplus/>
+                        <hamseqbegin/>
+                        <hamcirclel/>
+                        <hamclockd/>
+                        <hamseqend/>
+                        <hamparend/>
+                        <hamrepeatfromstart/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

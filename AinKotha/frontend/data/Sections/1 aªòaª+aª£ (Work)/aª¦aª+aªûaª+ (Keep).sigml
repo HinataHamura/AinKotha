@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="কাজ">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hampinchall/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hammoveo/>
+                        <hamarcu/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamsmallmod/>
+                        <hamreplace/>
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

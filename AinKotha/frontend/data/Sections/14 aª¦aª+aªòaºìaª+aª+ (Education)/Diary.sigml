@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+
+
+                                <sigml>
+                                    <hns_sign gloss="বই">
+                                          <hamnosys_nonmanual/>    
+                                                <hamnosys_manual>        
+                                                        <hamsymmpar/>    <hamflathand/>   
+                                                        <hamthumboutmod/>   <hamparbegin/>   
+                                                        <hamextfingero/>   <hampalml/>      
+                                                        <hamplus/>   <hamextfingero/>
+                                                        <hampalmr/>   <hamparend/>
+                                                        <hamparbegin/>   <hamfingerpad/>
+                                                        <hamindexfinger/>   <hamplus/>
+                                                        <hamfingerpad/>   <hamindexfinger/>
+                                                        <hamparend/>   <hamtouch/>
+                                                        <hamshoulders/>   <hamnomotion/>
+                                                        <hamreplace/>   <hamextfingero/>
+                                                        <hampalmu/>   <hamparbegin/>
+                                                        <hamfingertip/>   <hammiddlefinger/>
+                                                        <hamplus/>    <hamfingertip/>
+                                                        <hammiddlefinger/>    <hamparend/>
+                                                        <hamclose/>     <hamshoulders/>
+                                                </hamnosys_manual>
+                                        </hns_sign>
+                                        
+        <hns_sign gloss="লেখা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamparbegin/>
+                        <hampinch12/>
+                        <hamfingerstraightmod/>
+                        <hamextfingeru/>
+                        <hampalmdl/>
+                        <hambetween/>
+                        <hampalmd/>
+                        <hamplus/>
+                        <hamflathand/>
+                        <hamextfingero/>
+                        <hambetween/>
+                        <hamextfingeror/>
+                        <hampalmu/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hampalm/>
+                        <hamplus/>
+                        <hamfingertip/>
+                        <hamindexfinger/>
+                        <hamparend/>
+                        <hamclose/>
+                        <hamshouldertop/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammoveor/>
+                        <hamswinging/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamnomotion/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+                                </sigml>

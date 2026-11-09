@@ -1,0 +1,29 @@
+<sigml>
+        <hns_sign gloss="ওখানে">
+                <hamnosys_nonmanual>
+			<hnm_mouthpicture picture="anot"/>
+		</hamnosys_nonmanual>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamfingerstraightmod/>
+                        <hambetween/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hambetween/>
+                        <hampalmd/>
+                        <hamshoulders/>
+                        <hamreplace/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamfingerstraightmod/>
+                        <hambetween/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

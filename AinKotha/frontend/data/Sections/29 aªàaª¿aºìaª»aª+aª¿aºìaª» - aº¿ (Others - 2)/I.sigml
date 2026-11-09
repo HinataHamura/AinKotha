@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="আমি">
+                <hamnosys_nonmanual>
+		        <hnm_mouthpicture picture="te_Ik"/>
+		</hamnosys_nonmanual>
+                <hamnosys_manual>
+                        <hamfinger23/>
+                        <hamdoublebent/>
+                        <hamextfingerl/>
+                        <hampalml/>
+                        <hamshouldertop/>
+                        <hamarmextended/>
+                        <hammovei/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

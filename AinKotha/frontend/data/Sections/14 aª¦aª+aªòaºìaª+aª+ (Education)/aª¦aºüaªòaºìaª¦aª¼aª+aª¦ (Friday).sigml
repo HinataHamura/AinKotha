@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="শুক্রবার">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamchin/>
+                        <hamlrat/>
+                        <hamtouch/>
+                        <hamnomotion/>
+                        <hamreplace/>
+                        <hamextfingeru/>
+                        <hampalmu/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

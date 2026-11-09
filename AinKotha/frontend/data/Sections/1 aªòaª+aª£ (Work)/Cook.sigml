@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="রান্না করা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger2/>
+                        <hamfingerhookmod/>
+                        <hamextfingerdl/>
+                        <hambetween/>
+                        <hamextfingero/>
+                        <hampalmd/>
+                        <hamstircw/>
+                        <hamrepeatfromstartseveral/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

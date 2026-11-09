@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="ছবি তোলা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hamfinger2/>
+                        <hamthumbopenmod/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamnose/>
+                        <hamseqbegin/>
+                        <hamclose/>
+                        <hamfingerpad/>
+                        <hamthumb/>
+                        <hamseqend/>
+                        <hamreplace/>
+                        <hamfinger2/>
+                        <hamfingerhookmod/>
+                        <hamthumbopenmod/>
+                        <hamreplace/>
+                        <hamfinger2/>
+                        <hamthumbopenmod/>
+                        <hamreplace/>
+                        <hamfinger2/>
+                        <hamfingerhookmod/>
+                        <hamthumbopenmod/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="মহাশয়">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamparbegin/>
+                        <hamfinger2/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hambetween/>
+                        <hamextfingero/>
+                        <hampalml/>
+                        <hamplus/>
+                        <hamfist/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeror/>
+                        <hampalmd/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamneck/>
+                        <hambetween/>
+                        <hamshouldertop/>
+                        <hamplus/>
+                        <hamchest/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamsmallmod/>
+                        <hammovedl/>
+                        <hamsmallmod/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamnomotion/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+         <hns_sign>
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmlr/>
+                        <hampinchall/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamneck/>
+                        <hamlrat/>
+                        <hammoveo/>
+                        <hamsmallmod/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

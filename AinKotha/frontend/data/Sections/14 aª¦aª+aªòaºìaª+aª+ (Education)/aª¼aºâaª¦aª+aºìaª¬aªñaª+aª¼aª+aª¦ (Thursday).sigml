@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="বৃহস্পতিবার">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamflathand/>
+                        <hamfingerstraightmod/>
+                        <hamextfingeru/>
+                        <hampalmu/>
+                        <hamlips/>
+                        <hamlrat/>
+                        <hamseqbegin/>
+                        <hamclose/>
+                        <hamfingertip/>
+                        <hamthumb/>
+                        <hamseqend/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammovel/>
+                        <hamsmallmod/>
+                        <hamreplace/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hammover/>
+                        <hamsmallmod/>
+                        <hamreplace/>
+                        <hamextfingeru/>
+                        <hampalmu/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

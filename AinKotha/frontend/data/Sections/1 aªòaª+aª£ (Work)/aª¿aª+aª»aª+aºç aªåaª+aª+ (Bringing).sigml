@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<sigml>
+        <hns_sign gloss="নিয়ে আসা">
+                <hamnosys_nonmanual/>   
+                <hamnosys_manual>       
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                        <hamextfingero/>
+                        <hampalmul/>
+                        <hamchest/>
+                        <hamlrat/>
+                        <hamclose/>
+                        <hamparbegin/>
+                        <hamcircleu/>
+                        <hamlargemod/>
+                        <hamchest/>
+                        <hamreplace/>
+                        <hampalmul/>
+                        <hamparend/>
+                        <hamreplace/>
+                        <hamfist/>
+                        <hamclose/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

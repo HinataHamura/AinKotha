@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="থুথু ফেলা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hampinchall/>
+                        <hamfingerstraightmod/>
+                        <hamextfingerul/>
+                        <hampalmul/>
+                        <hamchin/>
+                        <hamclose/>
+                        <hamparbegin/>
+                        <hammoved/>
+                        <hamarcu/>
+                        <hamreplace/>
+                        <hamfinger23/>
+                        <hamthumboutmod/>
+                        <hambetween/>
+                        <hamfinger23spread/>
+                        <hamthumboutmod/>
+                        <hamextfingerd/>
+                        <hambetween/>
+                        <hamextfingero/>
+                        <hampalmul/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

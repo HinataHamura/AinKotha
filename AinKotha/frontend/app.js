@@ -40,6 +40,7 @@ let callLog = []; // {category, laws, services} accumulated for summary
 let usingTextMode = false;
 let currentAudio = null;
 let language = "bn";
+window.AinKothaLang = () => language;
 
 // ---------- Consent language toggle (FR-2.6) ----------
 const CONSENT_TEXT = {
@@ -423,6 +424,7 @@ async function handleUserTranscript(text) {
     addBubble("bot", data.reply_text, data.category, data.confidence);
     speak(data.reply_text);
     callStatus.textContent = "সংযোগ হয়েছে — কথা বলুন";
+    if (window.AinKothaSign) window.AinKothaSign.onReply(data, language);
 
     if (data.is_emergency) {
       emergencyBanner.classList.remove("hidden");
@@ -445,6 +447,8 @@ async function handleUserTranscript(text) {
 $("endCallBtn").addEventListener("click", endCall);
 
 function endCall() {
+  if (window.AinKothaSign) window.AinKothaSign.stop();
+  const sp = $("signPanel"); if (sp) sp.classList.add("hidden");
   clearTimeout(silenceTimer);
   stopRecognition();
   stopAudio();

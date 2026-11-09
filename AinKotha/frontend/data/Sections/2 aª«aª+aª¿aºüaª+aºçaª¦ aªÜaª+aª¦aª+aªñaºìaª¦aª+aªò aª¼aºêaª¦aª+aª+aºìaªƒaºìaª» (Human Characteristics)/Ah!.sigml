@@ -1,0 +1,45 @@
+
+<sigml>
+
+        <hns_sign gloss="আহ">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamfinger23spread/>
+                        <hamthumbacrossmod/>
+                        <hamextfingeru/>
+                        <hambetween/>
+                        <hamextfingeri/>
+                        <hampalmd/>
+                        <hameyes/>
+                        <hamparbegin/>
+                        <hammoveo/>
+                        <hamsmallmod/>
+                        <hamreplace/>
+                        <hamextfingero/>
+                        <hambetween/>
+                        <hamextfingeru/>
+                        <hampalmu/>
+                        <hamparend/>
+                        <hamreplace/>
+                        <hampinchall/>
+                        <hambetween/>
+                        <hampinchall/>
+                        <hamfingerstraightmod/>
+                        <hamextfingerul/>
+                        <hambetween/>
+                        <hamextfingeru/>
+                        <hampalml/>
+                        <hamshoulders/>
+                        <hambetween/>
+                        <hamchest/>
+                        <hamtouch/>
+                        <hamnomotion/>
+                        <hamreplace/>
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>
+
+
+<!-- -->

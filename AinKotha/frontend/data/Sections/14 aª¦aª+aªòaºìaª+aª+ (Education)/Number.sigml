@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="সংখ্যা">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hampinch12/>
+                        <hamfingerstraightmod/>
+                        <hamextfingerl/>
+                        <hampalml/>
+                        <hamshoulders/>
+                        <hamtouch/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hammoveo/>
+                        <hamlargemod/>
+                        <hamarcl/>
+                        <hamslow/>
+                        <hamreplace/>
+                        <hamfinger2345/>
+                        <hamthumboutmod/>
+                        <hamextfingero/>
+                        <hamslow/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

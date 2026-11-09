@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="চাঁদ">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamcee12/>
+                        <hamfingerstraightmod/>
+                        <hamparbegin/>
+                        <hamextfingerul/>
+                        <hambetween/>
+                        <hamextfingeru/>
+                        <hampalmdr/>
+                        <hamplus/>
+                        <hamextfingeru/>
+                        <hambetween/>
+                        <hamextfingerur/>
+                        <hampalmdl/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamfingertip/>
+                        <hamindexfinger/>
+                        <hamplus/>
+                        <hamfingertip/>
+                        <hamindexfinger/>
+                        <hamparend/>
+                        <hamtouch/>
+                        <hamneck/>
+                        <hamnomotion/>
+                        <hamparbegin/>
+                        <hamparbegin/>
+                        <hammoveur/>
+                        <hamlargemod/>
+                        <hamarcd/>
+                        <hamslow/>
+                        <hamreplace/>
+                        <hampinch12/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamslow/>
+                        <hamparend/>
+                        <hamplus/>
+                        <hamparbegin/>
+                        <hammoveul/>
+                        <hamlargemod/>
+                        <hamarcd/>
+                        <hamslow/>
+                        <hamreplace/>
+                        <hampinch12/>
+                        <hamextfingeru/>
+                        <hampalmd/>
+                        <hamslow/>
+                        <hamparend/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>

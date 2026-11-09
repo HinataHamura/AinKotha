@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sigml>
+        <hns_sign gloss="দাঁড়ানো">
+                <hamnosys_nonmanual/>
+                <hamnosys_manual>
+                        <hamsymmpar/>
+                        <hamparbegin/>
+                        <hamfinger23spread/>
+                        <hamthumbacrossmod/>
+                        <hamplus/>
+                        <hamflathand/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hamextfingerd/>
+                        <hampalmd/>
+                        <hamplus/>
+                        <hamextfingero/>
+                        <hampalmu/>
+                        <hamparend/>
+                        <hamparbegin/>
+                        <hampalm/>
+                        <hamlrat/>
+                        <hamtouch/>
+                        <hamplus/>
+                        <hamfingertip/>
+                        <hammiddlefinger/>
+                        <hamparend/>
+                </hamnosys_manual>
+        </hns_sign>
+</sigml>
