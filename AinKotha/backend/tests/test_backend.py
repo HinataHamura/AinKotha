@@ -9,6 +9,7 @@ from fastapi.testclient import TestClient
 sys.path.insert(0, str(Path(__file__).parents[1]))
 import main
 import responder
+import thana_locator
 import validate_dataset
 
 
@@ -21,6 +22,41 @@ class BackendContractTests(unittest.TestCase):
         response = self.client.get("/api/health")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
+
+    def test_nearest_thana_endpoint_and_bangladesh_bounds(self):
+        response = self.client.get("/api/nearest-thana", params={"lat": 23.8041, "lng": 90.3634})
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["thana"]["id"], "T025")
+        self.assertEqual(body["distance_km"], 0)
+        self.assertEqual(body["user_lat"], 23.8041)
+        self.assertNotIn("distance_km", body["thana"])
+        self.assertEqual(
+            self.client.get("/api/nearest-thana", params={"lat": 30, "lng": 90}).status_code,
+            400,
+        )
+
+    def test_nearest_thana_limit_and_haversine(self):
+        self.assertEqual(len(thana_locator._THANAS), 57)
+        self.assertEqual(len({thana["id"] for thana in thana_locator._THANAS}), 57)
+        for thana in thana_locator._THANAS:
+            self.assertTrue({"id", "name_bn", "name_en", "district", "lat", "lng", "phone", "verified"} <= thana.keys())
+        self.assertEqual(len(thana_locator.find_nearest(23.8, 90.4, limit=3)), 3)
+        self.assertAlmostEqual(thana_locator.haversine(0, 0, 0, 1), 111.2, places=1)
+        self.assertEqual(
+            self.client.get("/api/nearest-thana", params={"lat": 23.8, "lng": 90.4, "limit": 0}).status_code,
+            400,
+        )
+
+    def test_nearest_thana_does_not_claim_coverage_outside_dhaka_seed_data(self):
+        response = self.client.get("/api/nearest-thana", params={"lat": 22.3569, "lng": 91.7832})
+        self.assertEqual(response.status_code, 404)
+
+    def test_nearest_thana_covers_rajshahi_city(self):
+        response = self.client.get("/api/nearest-thana", params={"lat": 24.3740, "lng": 88.5980})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["thana"]["district"], "Rajshahi")
+        self.assertEqual(response.json()["thana"]["name_en"], "Boalia Model Thana")
 
     def test_emergency_is_first_and_structured(self):
         response = self.client.post("/api/chat", json={

@@ -50,6 +50,7 @@ const CONSENT_TEXT = {
       "আমি একজন <strong>আইনজীবী নই</strong> — এটি একটি AI সহকারী, শুধু সাধারণ তথ্য দেয়।",
       "আপনার <strong>কণ্ঠ রেকর্ড করা হবে না।</strong>",
       "জরুরি বিপদে থাকলে সরাসরি <strong>৯৯৯</strong> নম্বরে কল করুন।",
+      "থানা খুঁজতে আপনার GPS অবস্থান ব্যবহার হবে; এটি আমাদের সার্ভারে সংরক্ষণ হবে না। মানচিত্র দেখাতে OpenStreetMap থেকে map tile লোড হবে।",
       "শুধু নাম/ফোন নম্বরবিহীন বেনামি তথ্য (ক্যাটাগরি, সময়) যাচাইয়ের জন্য রাখা হতে পারে।",
     ],
     agree: "আমি বুঝেছি এবং সম্মত আছি",
@@ -63,6 +64,7 @@ const CONSENT_TEXT = {
       "I am <strong>not a lawyer</strong> — this is an AI assistant that provides general information only.",
       "Your <strong>voice will not be recorded.</strong>",
       "If you are in immediate danger, call <strong>999</strong> directly.",
+      "Your GPS location is used to find a police station and is not stored on our server. Map tiles load from OpenStreetMap.",
       "Only anonymous data (category, timestamp) may be kept for evaluation — no names or phone numbers.",
     ],
     agree: "I understand and agree",
@@ -395,6 +397,209 @@ function addBubble(who, text, category, confidence) {
 function escapeHtml(s) {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
+
+// ---------- Nearest police station ----------
+const thanaButtons = [$("thanaBtn"), $("thanaQuickBtn")];
+const thanaPanel = $("thanaPanel");
+const thanaStatus = $("thanaStatus");
+const thanaDetails = $("thanaDetails");
+const thanaPhone = $("thanaPhone");
+const thanaMap = $("thanaMap");
+const thanaMapFallback = $("thanaMapFallback");
+let nearestThanaPhone = "";
+
+thanaButtons.forEach((button) => button.addEventListener("click", findNearestThana));
+
+function findNearestThana() {
+  thanaPanel.hidden = false;
+  thanaDetails.hidden = true;
+  thanaStatus.textContent = "";
+  if (!navigator.geolocation) {
+    showThanaError("আপনার ব্রাউজারে অবস্থান নির্ণয় সুবিধা নেই। জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।");
+    return;
+  }
+  setThanaButtonsDisabled(true);
+  thanaStatus.textContent = "আপনার অবস্থান নির্ণয় করা হচ্ছে…";
+  try {
+    navigator.geolocation.getCurrentPosition(loadNearestThana, (error) => {
+      const messages = {
+        1: "অবস্থান শেয়ার করা হয়নি। জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।",
+        2: "GPS সংকেত পাওয়া যাচ্ছে না। পরে আবার চেষ্টা করুন।",
+        3: "অবস্থান নির্ণয় করতে সময় লাগছে। আবার চেষ্টা করুন।",
+      };
+      showThanaError(messages[error.code] || "অবস্থান নির্ণয় করা যায়নি। জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।");
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+  } catch (error) {
+    console.error("Could not request the user's location:", error);
+    showThanaError("অবস্থান নির্ণয় করা যায়নি। জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।");
+  }
+}
+
+async function loadNearestThana(position) {
+  const { latitude, longitude } = position.coords;
+  try {
+    const params = new URLSearchParams({ lat: String(latitude), lng: String(longitude) });
+    const response = await fetch(`/api/nearest-thana?${params}`);
+    if (response.status === 404) {
+      showThanaError("এই এলাকার থানার তথ্য এখনো নেই। বর্তমানে ঢাকা ও রাজশাহীর কিছু এলাকার তথ্য আছে। জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।");
+      return;
+    }
+    if (!response.ok) throw new Error(`Nearest thana request failed: ${response.status}`);
+    const data = await response.json();
+    const thana = data.thana;
+    thanaDetails.hidden = false;
+    thanaStatus.textContent = "";
+    $("thanaName").textContent = `${thana.name_bn} (${thana.name_en})`;
+    $("thanaDistance").textContent = `আনুমানিক দূরত্ব: ${Number(data.distance_km).toFixed(1)} কিমি (সরলরেখায়)`;
+    $("thanaWarning").hidden = Boolean(thana.verified);
+    nearestThanaPhone = thana.phone || "";
+    if (nearestThanaPhone) {
+      thanaPhone.textContent = nearestThanaPhone;
+      thanaPhone.href = `tel:${nearestThanaPhone}`;
+      thanaPhone.removeAttribute("aria-label");
+    } else {
+      thanaPhone.textContent = "থানার নম্বর যাচাই করা হয়নি — জরুরি প্রয়োজনে ৯৯৯";
+      thanaPhone.href = "tel:999";
+      thanaPhone.setAttribute("aria-label", "জরুরি নম্বর ৯৯৯");
+    }
+
+    renderThanaMap(latitude, longitude, thana.lat, thana.lng);
+    const routeParams = new URLSearchParams({
+      api: "1",
+      origin: `${latitude},${longitude}`,
+      destination: `${thana.lat},${thana.lng}`,
+    });
+    $("thanaRouteLink").href = `https://www.google.com/maps/dir/?${routeParams}`;
+  } catch (error) {
+    console.error("Nearest thana lookup failed:", error);
+    showThanaError("থানার তথ্য পাওয়া যায়নি। পরে চেষ্টা করুন; জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।");
+  } finally {
+    setThanaButtonsDisabled(false);
+  }
+}
+
+function renderThanaMap(userLat, userLng, thanaLat, thanaLng) {
+  const width = 400;
+  const height = 200;
+  const tileSize = 256;
+  const toWorldPixel = (lat, lng, zoom) => {
+    const worldSize = tileSize * (2 ** zoom);
+    const latitude = Math.max(-85.05112878, Math.min(85.05112878, lat));
+    const sinLatitude = Math.sin(latitude * Math.PI / 180);
+    return {
+      x: (lng + 180) / 360 * worldSize,
+      y: (0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI)) * worldSize,
+    };
+  };
+  let zoom = 10;
+  for (let candidate = 15; candidate >= 10; candidate--) {
+    const userAtZoom = toWorldPixel(userLat, userLng, candidate);
+    const stationAtZoom = toWorldPixel(thanaLat, thanaLng, candidate);
+    if (Math.abs(userAtZoom.x - stationAtZoom.x) <= width - 80
+      && Math.abs(userAtZoom.y - stationAtZoom.y) <= height - 60) {
+      zoom = candidate;
+      break;
+    }
+  }
+  const user = toWorldPixel(userLat, userLng, zoom);
+  const station = toWorldPixel(thanaLat, thanaLng, zoom);
+  const centerX = (user.x + station.x) / 2;
+  const centerY = (user.y + station.y) / 2;
+  const originX = centerX - width / 2;
+  const originY = centerY - height / 2;
+  const startTileX = Math.floor(originX / tileSize);
+  const endTileX = Math.floor((originX + width) / tileSize);
+  const startTileY = Math.floor(originY / tileSize);
+  const endTileY = Math.floor((originY + height) / tileSize);
+  const fragment = document.createDocumentFragment();
+  let pendingTiles = 0;
+  let failedTile = false;
+
+  const updateMapFallback = () => {
+    if (pendingTiles === 0) {
+      thanaMapFallback.hidden = !failedTile;
+    }
+  };
+
+  for (let tileY = startTileY; tileY <= endTileY; tileY++) {
+    if (tileY < 0 || tileY >= 2 ** zoom) continue;
+    for (let tileX = startTileX; tileX <= endTileX; tileX++) {
+      const tile = document.createElement("img");
+      tile.alt = "";
+      tile.draggable = false;
+      tile.className = "thana-map-tile";
+      tile.style.left = `${tileX * tileSize - originX}px`;
+      tile.style.top = `${tileY * tileSize - originY}px`;
+      tile.addEventListener("load", () => {
+        pendingTiles--;
+        updateMapFallback();
+      }, { once: true });
+      tile.addEventListener("error", () => {
+        failedTile = true;
+        tile.remove();
+        pendingTiles--;
+        updateMapFallback();
+      }, { once: true });
+      pendingTiles++;
+      tile.src = `https://tile.openstreetmap.org/${zoom}/${((tileX % (2 ** zoom)) + 2 ** zoom) % (2 ** zoom)}/${tileY}.png`;
+      fragment.appendChild(tile);
+    }
+  }
+
+  thanaMap.replaceChildren(fragment);
+  thanaMapFallback.hidden = true;
+  const addMarker = (point, label, type) => {
+    const marker = document.createElement("span");
+    marker.className = `thana-map-marker ${type}`;
+    marker.style.left = `${point.x - originX}px`;
+    marker.style.top = `${point.y - originY}px`;
+    marker.textContent = label;
+    thanaMap.appendChild(marker);
+  };
+  const routeLine = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  routeLine.setAttribute("class", "thana-map-route-line");
+  routeLine.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  routeLine.setAttribute("aria-hidden", "true");
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", String(user.x - originX));
+  line.setAttribute("y1", String(user.y - originY));
+  line.setAttribute("x2", String(station.x - originX));
+  line.setAttribute("y2", String(station.y - originY));
+  routeLine.appendChild(line);
+  thanaMap.appendChild(routeLine);
+  addMarker(user, "আপনি", "user");
+  addMarker(station, "থানা", "station");
+  updateMapFallback();
+}
+
+function showThanaError(message) {
+  thanaStatus.textContent = message;
+  thanaDetails.hidden = true;
+  setThanaButtonsDisabled(false);
+}
+
+function setThanaButtonsDisabled(disabled) {
+  thanaButtons.forEach((button) => { button.disabled = disabled; });
+}
+
+// Close thana panel
+$("thanaPanelClose").addEventListener("click", () => {
+  $("thanaPanel").hidden = true;
+});
+
+$("thanaCopyBtn").addEventListener("click", async () => {
+  if (!nearestThanaPhone) {
+    thanaStatus.textContent = "থানার ফোন নম্বর যাচাই করা হয়নি। জরুরি প্রয়োজনে ৯৯৯-এ কল করুন।";
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(nearestThanaPhone);
+    thanaStatus.textContent = "ফোন নম্বর কপি হয়েছে।";
+  } catch (error) {
+    console.error("Could not copy thana phone number:", error);
+    thanaStatus.textContent = "নম্বর কপি করা যায়নি; নম্বরটি নির্বাচন করে কপি করুন।";
+  }
+});
 
 // ---------- Backend call ----------
 async function handleUserTranscript(text) {

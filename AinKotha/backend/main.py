@@ -21,6 +21,7 @@ import classify as clf
 import responder
 import llm
 import retrieve as rt
+import thana_locator as thana_locator
 
 # FR-1.5: configurable silence timeout via env var (seconds)
 SILENCE_TIMEOUT_SECONDS = int(os.getenv("AINKOTHA_SILENCE_TIMEOUT", "60"))
@@ -40,6 +41,7 @@ _tts_cache: dict[str, bytes] = {}
 _tts_domains = ("com", "com.bd", "co.in")
 # FR-4.3: session state — clarifications, emergency flag, conversation history
 _sessions: dict[str, dict] = {}
+MAX_THANA_DATA_DISTANCE_KM = 50
 
 
 class ChatRequest(BaseModel):
@@ -240,6 +242,34 @@ def chat(req: ChatRequest):
 def list_services():
     """Verified helplines for the sign-language section (read-only, from services.json)."""
     return rt.SERVICES
+
+
+@app.get("/api/nearest-thana")
+def nearest_thana(lat: float, lng: float, limit: int = 1):
+    """Find the nearest seeded police station without retaining user coordinates."""
+    import math
+
+    if not math.isfinite(lat) or not 20 <= lat <= 27 or not math.isfinite(lng) or not 88 <= lng <= 93:
+        raise HTTPException(status_code=400, detail="Coordinates must be within Bangladesh")
+    if not 1 <= limit <= 50:
+        raise HTTPException(status_code=400, detail="limit must be between 1 and 50")
+
+    nearest = thana_locator.find_nearest(lat, lng, limit)
+    if not nearest:
+        raise HTTPException(status_code=503, detail="No police station data is available")
+    result = nearest[0]
+    distance_km = result.pop("distance_km")
+    if distance_km > MAX_THANA_DATA_DISTANCE_KM:
+        raise HTTPException(
+            status_code=404,
+            detail="Thana data is not available for this area yet",
+        )
+    return {
+        "thana": result,
+        "distance_km": round(distance_km, 1),
+        "user_lat": lat,
+        "user_lng": lng,
+    }
 
 
 @app.get("/api/health")

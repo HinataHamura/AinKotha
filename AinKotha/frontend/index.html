@@ -11,28 +11,44 @@
 </head>
 <body>
 
-  <!-- Emergency banner (FR-3.3) -->
+  <!-- Emergency banner -->
   <div id="emergencyBanner" class="emergency-banner hidden">
-    <span class="pulse-dot"></span>
-    <span>জরুরি প্রয়োজনে কল করুন: <a href="tel:999">৯৯৯</a> &nbsp;|&nbsp; নারী ও শিশু নির্যাতন: <a href="tel:109">১০৯</a></span>
+    <div class="eb-inner">
+      <span class="pulse-dot"></span>
+      <span class="eb-text">জরুরি: <a href="tel:999">৯৯৯</a> &nbsp;·&nbsp; নারী ও শিশু: <a href="tel:109">১০৯</a></span>
+      <button id="thanaBtn" class="eb-thana-btn" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+        নিকটতম থানা
+      </button>
+    </div>
   </div>
 
+  <!-- Topbar -->
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">আ</div>
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
       <div>
         <div class="brand-title">AinKotha</div>
-        <div class="brand-sub">আইন কথা — আইনি তথ্য ও সহায়তা</div>
+        <div class="brand-sub">আইনি তথ্য ও সহায়তা</div>
       </div>
     </div>
-    <button id="helpBtn" class="icon-btn" title="সংখ্যাগুলো আবার শুনুন">নম্বরসমূহ</button>
-    <button id="signBtn" class="icon-btn" aria-pressed="false" title="বাংলা সাইন ল্যাংগুয়েজ">🤟 সাইন</button>
-    <button id="languageBtn" class="icon-btn" title="Switch language">English</button>
+    <div class="topbar-actions">
+      <button id="helpBtn" class="tb-btn" title="হেল্পলাইন নম্বর শুনুন">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5 19.79 19.79 0 0 1 1.63 2.84 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        নম্বরসমূহ
+      </button>
+      <button id="signBtn" class="tb-btn" aria-pressed="false" title="বাংলা সাইন ল্যাংগুয়েজ">
+        <span style="font-size:15px">🤟</span> সাইন
+      </button>
+      <button id="languageBtn" class="tb-btn tb-lang">English</button>
+    </div>
   </header>
 
   <main class="stage">
 
-      <!-- BdSL sign panel: auto-shows why + which number to call -->
+    <!-- BdSL sign panel -->
     <div id="signPanel" class="sign-panel hidden" aria-live="polite">
       <div id="signAvatarWrap" class="sign-avatar hidden">
         <div class="CWASAAvatar av0" style="width:260px;height:300px"></div>
@@ -43,95 +59,225 @@
         <div id="signSmall" class="sign-small"></div>
         <div id="signBig" class="sign-big"></div>
         <div id="signDots" class="sign-dots"></div>
-        <button id="signClose" class="btn btn-small hidden" type="button">← ফিরে যান</button>
-        <button id="signReplay" class="btn btn-small" type="button">↻ আবার দেখান</button>
+        <div class="sign-btns">
+          <button id="signClose" class="btn btn-ghost btn-sm hidden" type="button">← ফিরে যান</button>
+          <button id="signReplay" class="btn btn-ghost btn-sm" type="button">↻ আবার দেখান</button>
+        </div>
       </div>
     </div>
 
-    <!-- Consent / Disclaimer screen -->
-    <section id="consentScreen" class="panel consent-panel">
-      <div class="consent-card">
-        <div class="consent-lang-row">
-          <span id="consentLangLabel" class="consent-lang-label">ভাষা / Language:</span>
-          <button id="consentLangBtn" class="btn icon-btn consent-lang-btn">English</button>
+    <!-- ══ CONSENT SCREEN ══ -->
+    <section id="consentScreen" class="screen consent-screen">
+      <div class="consent-wrap">
+
+        <div class="consent-header">
+          <div class="consent-logo">
+            <div class="cl-mark">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="cl-name">AinKotha</span>
+          </div>
+          <button id="consentLangBtn" class="btn btn-pill btn-sm">English</button>
         </div>
-        <h1 id="consentTitle">শুরু করার আগে</h1>
+
+        <h1 id="consentTitle" class="consent-title">শুরু করার আগে</h1>
+        <p class="consent-intro">আইনি সহায়তা পেতে নিচের তথ্যগুলো পড়ুন</p>
+
         <ul class="consent-list" id="consentList">
-          <li>আমি একজন <strong>আইনজীবী নই</strong> — এটি একটি AI সহকারী, শুধু সাধারণ তথ্য দেয়।</li>
-          <li>আপনার <strong>কণ্ঠ রেকর্ড করা হবে না।</strong></li>
-          <li>জরুরি বিপদে থাকলে সরাসরি <strong>৯৯৯</strong> নম্বরে কল করুন।</li>
-          <li>শুধু নাম/ফোন নম্বরবিহীন বেনামি তথ্য (ক্যাটাগরি, সময়) যাচাইয়ের জন্য রাখা হতে পারে।</li>
+          <li>
+            <span class="ci-icon ci-warn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </span>
+            <span>আমি একজন <strong>আইনজীবী নই</strong> — শুধু সাধারণ তথ্য দেওয়া হয়</span>
+          </li>
+          <li>
+            <span class="ci-icon ci-ok">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span>আপনার <strong>কণ্ঠস্বর রেকর্ড বা সংরক্ষণ</strong> করা হবে না</span>
+          </li>
+          <li>
+            <span class="ci-icon ci-danger">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5 19.79 19.79 0 0 1 1.63 2.84 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span>তাৎক্ষণিক বিপদে সরাসরি <strong>৯৯৯</strong>-এ কল করুন</span>
+          </li>
+          <li>
+            <span class="ci-icon ci-info">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </span>
+            <span>থানা খুঁজতে GPS ব্যবহার হবে; সার্ভারে সংরক্ষণ হবে না</span>
+          </li>
         </ul>
-        <label class="consent-check">
+
+        <label class="consent-check-label">
           <input type="checkbox" id="consentCheck" />
+          <span class="custom-check"></span>
           <span id="consentAgreeLabel">আমি বুঝেছি এবং সম্মত আছি</span>
         </label>
-        <button id="startCallBtn" class="btn btn-primary btn-lg" disabled>
+
+        <button id="startCallBtn" class="btn btn-primary btn-full" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5 19.79 19.79 0 0 1 1.63 2.84 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span id="startCallLabel">কল শুরু করুন</span>
         </button>
-        <p class="fallback-link"><a href="#" id="openSignSection">🤟 বাংলা সাইন ল্যাংগুয়েজে হেল্পলাইন নম্বর দেখুন</a></p>
-        <p class="fallback-link"><a href="#" id="useTextInstead" id="useTextLabel">ভয়েসের বদলে টেক্সটে লিখতে চাই</a></p>
+
+        <div class="consent-links">
+          <a href="#" id="openSignSection">
+            <span style="font-size:14px">🤟</span> সাইন ল্যাংগুয়েজে হেল্পলাইন দেখুন
+          </a>
+          <span class="cl-sep">·</span>
+          <a href="#" id="useTextInstead">⌨️ টেক্সটে লিখতে চাই</a>
+        </div>
+
       </div>
     </section>
 
-    <!-- Call screen -->
-    <section id="callScreen" class="panel call-panel hidden">
-      <div class="call-visual">
-        <div id="orb" class="orb idle">
-          <div class="orb-ring r1"></div>
-          <div class="orb-ring r2"></div>
-          <div class="orb-core"></div>
+    <!-- ══ CALL SCREEN ══ -->
+    <section id="callScreen" class="screen call-screen hidden">
+
+      <!-- Orb area -->
+      <div class="call-top">
+        <div class="orb-wrap">
+          <div id="orb" class="orb idle">
+            <div class="orb-ring r1"></div>
+            <div class="orb-ring r2"></div>
+            <div class="orb-core">
+              <svg class="orb-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </div>
         </div>
         <div id="callStatus" class="call-status">সংযোগ হয়েছে — কথা বলুন</div>
         <div id="micState" class="mic-state">🎙️ শুনছি...</div>
       </div>
 
+      <!-- Transcript -->
       <div id="transcriptBox" class="transcript-box" aria-live="polite"></div>
       <p id="emergencyStatus" class="emergency-status hidden" role="alert"></p>
 
+      <!-- Text fallback -->
       <div id="textFallback" class="text-fallback hidden">
-        <input id="textInput" type="text" placeholder="এখানে আপনার সমস্যা লিখুন..." />
-        <button id="sendTextBtn" class="btn btn-small">পাঠান</button>
+        <input id="textInput" type="text" placeholder="আপনার সমস্যা লিখুন…" />
+        <button id="sendTextBtn" class="btn btn-send">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
       </div>
 
+      <!-- Controls -->
       <div class="call-controls">
-        <button id="muteBtn" class="btn btn-round" title="মাইক বন্ধ/চালু">🎤</button>
-        <button id="endCallBtn" class="btn btn-end" title="কল শেষ করুন">⏹ কল শেষ করুন</button>
-        <button id="toggleTextBtn" class="btn btn-round" title="টেক্সট দিয়ে লিখুন">⌨️</button>
+        <button id="muteBtn" class="ctrl-btn" title="মাইক বন্ধ/চালু">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
+        <button id="endCallBtn" class="ctrl-btn ctrl-end">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.42 19.42 0 0 1 4.9 15.3a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 4.5h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11l-1.27 1.27"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+          কল শেষ
+        </button>
+        <button id="toggleTextBtn" class="ctrl-btn" title="টেক্সট">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </button>
       </div>
+
+      <!-- Thana button (call screen) -->
+      <button id="thanaQuickBtn" class="thana-quick-btn" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+        নিকটতম থানা খুঁজুন
+      </button>
+
+      <!-- Thana panel -->
+      <section id="thanaPanel" class="thana-panel" aria-live="polite" hidden>
+        <div class="thana-panel-header">
+          <div class="thana-panel-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            নিকটতম থানা
+          </div>
+          <button class="thana-close-btn" id="thanaPanelClose" type="button" aria-label="বন্ধ করুন">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <p id="thanaStatus" class="thana-status"></p>
+        <div id="thanaDetails" hidden>
+          <div class="thana-info-row">
+            <div>
+              <h2 id="thanaName" class="thana-name"></h2>
+              <p id="thanaDistance" class="thana-distance"></p>
+              <p id="thanaWarning" class="thana-unverified" hidden>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                তথ্য যাচাই করা হয়নি
+              </p>
+            </div>
+          </div>
+          <div id="thanaMap" class="thana-map" role="img" aria-label="নিকটতম থানার মানচিত্র"></div>
+          <p class="thana-map-legend">
+            <span class="legend-dot legend-user"></span> আপনি &nbsp;
+            <span class="legend-dot legend-thana"></span> থানা
+          </p>
+          <p id="thanaMapFallback" class="thana-map-fallback" hidden>মানচিত্র লোড হয়নি। Google Maps লিংক ব্যবহার করুন।</p>
+          <div class="thana-phone-row">
+            <div class="thana-phone-label">ফোন নম্বর</div>
+            <div class="thana-phone-right">
+              <a id="thanaPhone" class="thana-phone"></a>
+              <button id="thanaCopyBtn" class="btn btn-pill btn-sm" type="button">কপি</button>
+            </div>
+          </div>
+          <a id="thanaRouteLink" class="thana-route-link" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            Google Maps-এ পথ দেখুন
+          </a>
+        </div>
+      </section>
+
     </section>
 
-    <!-- Summary screen (FR-8) -->
-    <section id="summaryScreen" class="panel summary-panel hidden">
-      <div class="summary-card">
-        <h2>কলের সারাংশ</h2>
-        <div class="summary-row">
+    <!-- ══ SUMMARY SCREEN ══ -->
+    <section id="summaryScreen" class="screen summary-screen hidden">
+      <div class="summary-wrap">
+
+        <div class="summary-top">
+          <div class="summary-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2 class="summary-title">কলের সারাংশ</h2>
+        </div>
+
+        <div class="summary-category-row">
           <span class="summary-label">সমস্যার ধরন</span>
-          <span id="sumCategory" class="summary-value">—</span>
+          <span id="sumCategory" class="summary-category-badge">—</span>
         </div>
 
         <div id="sumLawsWrap" class="summary-block">
-          <h3>প্রাসঙ্গিক আইন</h3>
+          <h3 class="summary-block-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            প্রাসঙ্গিক আইন
+          </h3>
           <div id="sumLaws" class="chip-list"></div>
         </div>
 
         <div id="sumServicesWrap" class="summary-block">
-          <h3>হেল্পলাইন ও সেবা</h3>
+          <h3 class="summary-block-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5 19.79 19.79 0 0 1 1.63 2.84 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            হেল্পলাইন ও সেবা
+          </h3>
           <div id="sumServices" class="service-list"></div>
         </div>
 
-        <p class="disclaimer-text">এটি সাধারণ তথ্য, আইনি পরামর্শ নয়। আমি একজন আইনজীবী নই।</p>
+        <p class="disclaimer-text">এটি সাধারণ তথ্য, আইনি পরামর্শ নয়। আমি আইনজীবী নই।</p>
 
         <div class="summary-actions">
-          <button id="copySummaryBtn" class="btn btn-outline">সারাংশ কপি করুন</button>
-          <button id="newCallBtn" class="btn btn-primary">নতুন কল শুরু করুন</button>
+          <button id="copySummaryBtn" class="btn btn-outline btn-full">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            সারাংশ কপি করুন
+          </button>
+          <button id="newCallBtn" class="btn btn-primary btn-full">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.84"/></svg>
+            নতুন কল শুরু করুন
+          </button>
         </div>
+
       </div>
     </section>
 
   </main>
 
-  <footer class="footer-note">প্রোটোটাইপ সংস্করণ · বাস্তব ফোন নম্বর নয় · AinKotha</footer>
+  <footer class="footer-note">প্রোটোটাইপ · আইনি পরামর্শ নয় · AinKotha</footer>
 
   <script src="sign.js"></script>
   <script src="app.js"></script>
