@@ -55,5 +55,16 @@
   {"id":"T054","name_bn":"শাহ মখদুম থানা","name_en":"Shah Makhdum Thana","district":"Rajshahi","lat":24.4380,"lng":88.6140,"phone":"","verified":false},
   {"id":"T055","name_bn":"চন্দ্রিমা থানা","name_en":"Chandrima Thana","district":"Rajshahi","lat":24.3900,"lng":88.5900,"phone":"","verified":false},
   {"id":"T056","name_bn":"কাশিয়াডাঙ্গা থানা","name_en":"Kashiadanga Thana","district":"Rajshahi","lat":24.4000,"lng":88.5480,"phone":"","verified":false},
-  {"id":"T057","name_bn":"কাটাখালী থানা","name_en":"Katakhali Thana","district":"Rajshahi","lat":24.3750,"lng":88.6960,"phone":"","verified":false}
+  {"id":"T057","name_bn":"কাটাখালী থানা","name_en":"Katakhali Thana","district":"Rajshahi","lat":24.3750,"lng":88.6960,"phone":"","verified":false},
+  {"id":"T058","name_bn":"বগুড়া সদর থানা","name_en":"Bogura Sadar Thana","district":"Bogura","lat":24.8481,"lng":89.3720,"phone":"0451-66033","verified":true},
+  {"id":"T059","name_bn":"শাজাহানপুর থানা","name_en":"Shajahanpur Thana","district":"Bogura","lat":24.7960,"lng":89.4100,"phone":"0451-68444","verified":true},
+  {"id":"T060","name_bn":"গাবতলী থানা","name_en":"Gabtali Thana","district":"Bogura","lat":24.9670,"lng":89.3250,"phone":"0451-56066","verified":true},
+  {"id":"T061","name_bn":"শেরপুর থানা","name_en":"Sherpur Thana","district":"Bogura","lat":24.9210,"lng":89.4860,"phone":"0451-72022","verified":true},
+  {"id":"T062","name_bn":"ধুনট থানা","name_en":"Dhunat Thana","district":"Bogura","lat":24.6220,"lng":89.4330,"phone":"0451-55255","verified":true},
+  {"id":"T063","name_bn":"সারিয়াকান্দি থানা","name_en":"Sariakandi Thana","district":"Bogura","lat":24.9800,"lng":89.5460,"phone":"0451-74044","verified":true},
+  {"id":"T064","name_bn":"সোনাতলা থানা","name_en":"Sonatala Thana","district":"Bogura","lat":25.0580,"lng":89.4360,"phone":"0451-76022","verified":true},
+  {"id":"T065","name_bn":"দুপচাঁচিয়া থানা","name_en":"Dupchanchia Thana","district":"Bogura","lat":24.8960,"lng":89.2320,"phone":"0451-62055","verified":true},
+  {"id":"T066","name_bn":"আদমদীঘি থানা","name_en":"Adamdighi Thana","district":"Bogura","lat":24.8130,"lng":89.1250,"phone":"0451-78033","verified":true},
+  {"id":"T067","name_bn":"কাহালু থানা","name_en":"Kahalu Thana","district":"Bogura","lat":24.7340,"lng":89.2180,"phone":"0451-79044","verified":true},
+  {"id":"T068","name_bn":"নন্দীগ্রাম থানা","name_en":"Nandigram Thana","district":"Bogura","lat":24.7820,"lng":89.5610,"phone":"0451-69055","verified":true}
 ]
